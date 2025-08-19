@@ -163,6 +163,7 @@ export default function WindoorHomepage() {
                     setShowDeCasasBadge(false)
                   }}
                   className="absolute top-2 right-2 p-1.5 hover:bg-slate-700 rounded-full transition-colors duration-300"
+                  aria-label="Cerrar"
                 >
                   <X className="w-3 h-3 text-slate-400 hover:text-white" />
                 </button>
@@ -345,6 +346,7 @@ export default function WindoorHomepage() {
               <button
                 onClick={() => setShowReservationModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label="Cerrar"
               >
                 <X className="w-5 h-5" />
               </button>
