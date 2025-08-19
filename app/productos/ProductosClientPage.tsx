@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Calendar, ArrowRight, ChevronRight, Phone, MapPin, Mail, Instagram, Facebook, Menu } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useEffect } from "react"
 
 export default function ProductosClientPage() {
@@ -134,9 +135,11 @@ export default function ProductosClientPage() {
                     <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
                       {/* Image */}
                       <div className="relative h-64 overflow-hidden">
-                        <img
+                        <Image
                           src={category.image || "/placeholder.svg"}
                           alt={category.title}
+                          width={800}
+                          height={600}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
