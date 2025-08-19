@@ -184,13 +184,13 @@ export default function WindoorHomepage() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
-              <h1
+              <span
                 className={`text-2xl font-bold tracking-wide transition-colors duration-500 ${
                   isScrolled ? "text-black" : "text-white"
                 }`}
               >
                 WINDOOR
-              </h1>
+              </span>
             </div>
 
             {/* Desktop Navigation */}
