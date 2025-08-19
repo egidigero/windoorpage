@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Play, X, ChevronRight, Eye, MessageSquare, Phone, MapPin, Mail, Instagram, Facebook, Menu } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useEffect } from "react"
 
 export default function ProyectosClientPage() {
@@ -165,9 +166,11 @@ export default function ProyectosClientPage() {
         return <video src={project.videoUrl} className="w-full h-full object-cover" controls autoPlay />
       default:
         return (
-          <img
+          <Image
             src={project.videoUrl || "/placeholder.svg"}
             alt={project.title}
+            width={800}
+            height={600}
             className="w-full h-full object-cover"
           />
         )
@@ -302,9 +305,11 @@ export default function ProyectosClientPage() {
                 {filteredProjects.map((project) => (
                   <div key={project.id} className="group cursor-pointer" onClick={() => openVideoModal(project)}>
                     <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
-                      <img
+                      <Image
                         src={project.thumbnail || "/placeholder.svg"}
                         alt={project.title}
+                        width={800}
+                        height={600}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
 

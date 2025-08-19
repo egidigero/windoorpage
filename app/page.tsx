@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useEffect } from "react"
 
 export default function WindoorHomepage() {
@@ -108,7 +109,13 @@ export default function WindoorHomepage() {
           <div className="relative group">
             <div className="bg-slate-800 shadow-lg rounded-lg px-3 py-2 border border-slate-600 hover:shadow-xl transition-all duration-300 cursor-pointer">
               <div className="flex items-center space-x-2">
-                <img src="/images/dcasas-logo.png" alt="D-CASAS" className="h-5 w-auto brightness-0 invert" />
+                <Image
+                  src="/images/dcasas-logo.png"
+                  alt="D-CASAS"
+                  width={100}
+                  height={20}
+                  className="h-5 w-auto brightness-0 invert"
+                />
                 <div className="text-center">
                   <div className="text-xs font-medium text-white">Partner</div>
                   <div className="text-[10px] text-slate-300 leading-tight">
@@ -124,9 +131,11 @@ export default function WindoorHomepage() {
               <div className="bg-slate-800 shadow-2xl rounded-xl border border-slate-600 overflow-hidden">
                 <div className="p-4">
                   <div className="flex items-start space-x-3">
-                    <img
+                    <Image
                       src="/images/dcasas-logo.png"
                       alt="D-CASAS"
+                      width={160}
+                      height={32}
                       className="h-8 w-auto flex-shrink-0 brightness-0 invert mt-1"
                     />
                     <div className="flex-1 min-w-0">
@@ -657,9 +666,11 @@ export default function WindoorHomepage() {
               {/* Right Content - Image */}
               <div className="order-1 lg:order-2">
                 <div className="relative">
-                  <img
+                  <Image
                     src="/images/windoor-bathroom.jpeg"
                     alt="Interiores personalizados con acabados de máxima calidad"
+                    width={1200}
+                    height={600}
                     className="w-full h-[600px] object-cover rounded-2xl shadow-xl"
                   />
                   <div className="absolute bottom-6 left-6 right-6">
