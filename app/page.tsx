@@ -14,6 +14,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { cn } from "@/lib/utils"
 import Footer from "@/components/Footer"
 import HeroSection from "@/components/home/HeroSection"
 import ServiciosSection from "@/components/home/ServiciosSection"
@@ -29,6 +31,8 @@ export default function WindoorHomepage() {
   const [currentMonth, setCurrentMonth] = useState<Date | null>(null)
   const [showDeCasasBadge, setShowDeCasasBadge] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
+  const isMobile = useIsMobile()
+  const [isBadgeOpen, setIsBadgeOpen] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -125,7 +129,10 @@ export default function WindoorHomepage() {
           {showDeCasasBadge && (
             <div className="fixed md:top-20 md:right-6 bottom-6 right-4 z-40">
               <div className="relative group">
-                <div className="bg-slate-800 shadow-lg rounded-xl px-6 py-4 border border-slate-600 hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <div
+                  onClick={() => isMobile && setIsBadgeOpen(!isBadgeOpen)}
+                  className="bg-slate-800 shadow-lg rounded-xl px-6 py-4 border border-slate-600 hover:shadow-xl transition-all duration-300 cursor-pointer"
+                >
                   <div className="flex items-center space-x-4">
                     <Image
                       src="/images/dcasas-logo.png"
@@ -145,7 +152,14 @@ export default function WindoorHomepage() {
                   </div>
                 </div>
 
-                <div className="absolute bottom-full md:top-full right-0 mb-3 md:mt-3 md:mb-0 w-[400px] max-w-[98vw] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                <div
+                  className={cn(
+                    "absolute bottom-full md:top-full right-0 mb-3 md:mt-3 md:mb-0 w-[400px] max-w-[98vw] transition-all duration-300 transform z-50",
+                    "opacity-0 invisible translate-y-2",
+                    "group-hover:opacity-100 group-hover:visible group-hover:translate-y-0",
+                    isBadgeOpen && "opacity-100 visible translate-y-0"
+                  )}
+                >
                   <div className="bg-slate-800 shadow-2xl rounded-2xl border border-slate-600 overflow-hidden">
                     <div className="p-6">
                       <div className="flex items-start space-x-4">
@@ -181,6 +195,7 @@ export default function WindoorHomepage() {
                       onClick={(e) => {
                         e.stopPropagation()
                         setShowDeCasasBadge(false)
+                        setIsBadgeOpen(false)
                       }}
                       className="absolute top-3 right-3 p-2 hover:bg-slate-700 rounded-full transition-colors duration-300" // aumentado de top-2 right-2 p-1.5 a top-3 right-3 p-2
                       aria-label="Cerrar"
