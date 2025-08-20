@@ -554,8 +554,7 @@ export default function WindoorHomepage() {
 
             {/* Subtitle */}
             <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Descubrí la excelencia en aberturas de PVC, placares y vestidores, baños y puertas de interior a medida,
-              con diseños personalizados y calidad premium en un espacio único para inspirarte.
+              Conoce nuestra línea de productos premium para equipar tu hogar: aberturas de PVC y aluminio, placares, vestidores, baños y puertas de interior a medida.
             </p>
 
             {/* CTA Buttons */}
