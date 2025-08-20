@@ -14,7 +14,7 @@ export default function ProductosClientPage() {
   const categories = [
     {
       id: "aberturas-pvc",
-      title: "Aberturas de PVC",
+      title: "Aberturas de PVC y Aluminio",
       description:
         "Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia y terminación premium.",
       image: "/placeholder.svg?height=400&width=600&text=Aberturas+de+PVC+premium",
@@ -22,7 +22,6 @@ export default function ProductosClientPage() {
         "Aislación térmica superior",
         "Herrajes de primera línea",
         "Colocación profesional",
-        "Garantía extendida",
       ],
     },
     {
@@ -38,7 +37,7 @@ export default function ProductosClientPage() {
       id: "puertas-interior",
       title: "Puertas de interior",
       description:
-        "Puertas a medida con variedad de texturas y hojas, herrajes resistentes y colocación prolija para un cierre perfecto.",
+        "Puertas a medida con acabados premium: laqueados, enchapados y melamina.",
       image: "/placeholder.svg?height=400&width=600&text=Puertas+de+interior+a+medida",
       features: ["Variedad de texturas", "Herrajes resistentes", "Colocación prolija", "Cierre perfecto"],
     },
