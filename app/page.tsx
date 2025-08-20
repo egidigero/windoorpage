@@ -981,3 +981,7 @@ export default function WindoorHomepage() {
     </div>
   )
 }
+      )}
+    </div>
+  )
+}

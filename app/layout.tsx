@@ -62,6 +62,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        {/* ...otros tags... */}
+      </head>
       <body className={`${inter.className} ${montserrat.variable}`}>
         {children}
         <Toaster />
