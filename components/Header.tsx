@@ -9,17 +9,19 @@ interface HeaderProps {
 }
 
 export default function Header({ active }: HeaderProps) {
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(active !== "inicio")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
+    if (active !== "inicio") return
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [active])
 
   const textColor = isScrolled ? "text-black" : "text-white"
   const linkClasses = (id: HeaderProps["active"], color: string) =>
