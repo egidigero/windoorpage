@@ -19,7 +19,7 @@ export default function ProductosClientPage() {
         "Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia y terminación premium.",
       image: "/placeholder.svg?height=400&width=600&text=Aberturas+de+PVC+premium",
       features: [
-        "Aislación térmica superior",
+        "Aislación térmica y acústica",
         "Herrajes de primera línea",
         "Colocación profesional",
       ],
