@@ -1,0 +1,23 @@
+# dependencias
+node_modules/
+
+# build output
+.next/
+
+# logs
+*.log
+
+# sistema
+.DS_Store
+
+# envs
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
