@@ -51,7 +51,7 @@ export default function Footer({
             <div className="md:col-span-2">
               <h3 className="text-2xl font-bold mb-4">WINDOOR</h3>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                Especialistas en aberturas de PVC, placares y vestidores, baños y puertas de interior a medida.
+                Especialistas en aberturas de PVC y aluminio, placares,vestidores, baños y puertas de interior a medida.
                 Transformamos espacios con la más alta calidad y diseño excepcional.
               </p>
               <div className="flex space-x-4">
@@ -62,14 +62,6 @@ export default function Footer({
                   className="w-10 h-10 bg-gray-800 hover:bg-[#E6D5C3] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
                 >
                   <Instagram className="w-4 h-4 text-white hover:text-gray-900" />
-                </a>
-                <a
-                  href="https://www.facebook.com/windoor.aberturas"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-gray-800 hover:bg-[#E6D5C3] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                >
-                  <Facebook className="w-4 h-4 text-white hover:text-gray-900" />
                 </a>
               </div>
             </div>
@@ -92,16 +84,14 @@ export default function Footer({
                 </li>
                 <li className="flex items-center space-x-2">
                   <Mail className="w-4 h-4" />
-                  <span>info@windoor.com.ar</span>
+                  <span>info.windooraberturas@gmail.com</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <MapPin className="w-4 h-4 mt-1" />
                   <span>
                     Remeros Plaza Shopping
                     <br />
-                    Av. Sta. María de las Conchas 4711
-                    <br />
-                    Rincón de Milberg, B1624 Tigre
+                    Nordelta, Tigre
                     <br />
                     Provincia de Buenos Aires
                   </span>
@@ -111,7 +101,7 @@ export default function Footer({
           </div>
 
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">© 2024 Windoor. Todos los derechos reservados.</p>
+            <p className="text-gray-400 text-sm">© 2025 Windoor. Todos los derechos reservados.</p>
             <div className="flex space-x-6 mt-4 md:mt-0"></div>
           </div>
         </div>
