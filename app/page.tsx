@@ -633,7 +633,7 @@ export default function WindoorHomepage() {
                 <div className="text-center mb-16">
                   <h2 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Nosotros</h2>
                   <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
-                    Creamos espacios únicos donde cada detalle refleja nuestra pasión por la excelencia y el diseño
+                    Creamos productos únicos donde cada detalle refleja nuestra pasión por la excelencia y el diseño
                     personalizado.
                   </p>
                 </div>
@@ -650,11 +650,11 @@ export default function WindoorHomepage() {
 
                     <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-light">
                       <p>
-                        En Windoor, cada proyecto nace de una conversación. Escuchamos tus necesidades, entendemos tu
-                        visión y la transformamos en espacios que superan expectativas.
+                        En Windoor, cada producto nace de una conversación. Escuchamos tus necesidades, entendemos tu
+                        visión y la transformamos en creaciones que superan expectativas.
                       </p>
                       <p>
-                        Nos especializamos en aberturas de PVC, placares y vestidores, baños y puertas de interior a
+                        Nos especializamos en aberturas de PVC y aluminio, placares, vestidores, baños y puertas de interior a
                         medida, combinando técnicas artesanales con tecnología de vanguardia para lograr acabados
                         impecables.
                       </p>
@@ -666,7 +666,7 @@ export default function WindoorHomepage() {
                         <div>
                           <h4 className="text-lg font-medium text-gray-900 mb-2">Diseño Personalizado</h4>
                           <p className="text-gray-600 font-light">
-                            Cada proyecto es único, diseñado específicamente para tu espacio y estilo de vida.
+                            Cada producto es único, diseñado específicamente para tu espacio y estilo de vida.
                           </p>
                         </div>
                       </div>
@@ -754,8 +754,7 @@ export default function WindoorHomepage() {
                         <div>
                           <h4 className="font-medium text-gray-900 mb-1">Ubicación</h4>
                           <p className="text-gray-600 font-light">Remeros Plaza Shopping</p>
-                          <p className="text-gray-600 font-light">Av. Sta. María de las Conchas 4711</p>
-                          <p className="text-gray-600 font-light">Rincón de Milberg, B1624 Tigre</p>
+                          <p className="text-gray-600 font-light">Nordelta, Tigre</p>
                           <p className="text-gray-600 font-light">Provincia de Buenos Aires</p>
                         </div>
                       </div>
