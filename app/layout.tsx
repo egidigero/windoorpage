@@ -63,7 +63,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        {/* Si usas favicon.png, cambia el href y type */}
+        {/* <link rel="icon" href="/favicon.png" type="image/png" /> */}
         {/* ...otros tags... */}
       </head>
       <body className={`${inter.className} ${montserrat.variable}`}>
