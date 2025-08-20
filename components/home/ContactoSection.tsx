@@ -244,14 +244,6 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
               >
                 <Instagram className="w-5 h-5 text-gray-700" />
               </a>
-              <a
-                href="https://www.facebook.com/windoor.aberturas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 bg-gray-100 hover:bg-[#E6D5C3] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-              >
-                <Facebook className="w-5 h-5 text-gray-700" />
-              </a>
             </div>
           </div>
         </div>
