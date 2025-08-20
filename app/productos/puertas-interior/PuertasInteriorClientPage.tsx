@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import Header from "@/components/Header"
 
 export default function PuertasInteriorClientPage() {
   const [showReservationModal, setShowReservationModal] = useState(false)
@@ -51,35 +52,10 @@ export default function PuertasInteriorClientPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              WINDOOR
-            </Link>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Inicio
-              </Link>
-              <Link href="/productos" className="text-gray-900 font-medium">
-                Productos
-              </Link>
-              <Link href="/proyectos" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Proyectos
-              </Link>
-              <Link href="/#nosotros" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Nosotros
-              </Link>
-              <Link href="/#contacto" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Contacto
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header active="productos" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 py-4 mt-16">
+      <div className="bg-gray-50 py-4 mt-20">
         <div className="container mx-auto px-4">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-gray-900">
