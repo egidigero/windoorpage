@@ -16,8 +16,10 @@ import {
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function WindoorHomepage() {
+  const { toast } = useToast()
   const [isScrolled, setIsScrolled] = useState(false)
   const [showReservationModal, setShowReservationModal] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -95,7 +97,10 @@ export default function WindoorHomepage() {
 
   const handleReservation = () => {
     if (selectedDate && selectedTime) {
-      alert(`Reserva confirmada para el ${selectedDate} a las ${selectedTime}`)
+      toast({
+        title: "Reserva confirmada",
+        description: `Reserva confirmada para el ${selectedDate} a las ${selectedTime}`,
+      })
       setShowReservationModal(false)
       setSelectedDate("")
       setSelectedTime("")
