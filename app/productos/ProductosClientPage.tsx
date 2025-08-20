@@ -1,24 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Calendar, ArrowRight, ChevronRight, Phone, MapPin, Mail, Instagram, Facebook, Menu } from "lucide-react"
+import { Calendar, ArrowRight, ChevronRight, Phone, MapPin, Mail, Instagram, Facebook } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import Header from "@/components/Header"
 
 export default function ProductosClientPage() {
   const [showReservationModal, setShowReservationModal] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 50)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
   const categories = [
     {
@@ -56,58 +46,7 @@ export default function ProductosClientPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out ${
-          isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-white shadow-sm"
-        }`}
-      >
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold tracking-wide text-black">
-                WINDOOR
-              </Link>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="hover:opacity-70 transition-all duration-300 font-medium text-black">
-                Inicio
-              </Link>
-              <Link href="/productos" className="text-black font-medium">
-                Productos
-              </Link>
-              <Link href="#nosotros" className="hover:opacity-70 transition-all duration-300 font-medium text-black">
-                Nosotros
-              </Link>
-              <Link href="/proyectos" className="hover:opacity-70 transition-all duration-300 font-medium text-black">
-                Proyectos
-              </Link>
-              <Link href="#contacto" className="hover:opacity-70 transition-all duration-300 font-medium text-black">
-                Contacto
-              </Link>
-            </nav>
-
-            {/* Contact Info */}
-            <div className="hidden lg:flex items-center space-x-4 text-black">
-              <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
-                <span className="text-sm">+54 11 3042-6971</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4" />
-                <span className="text-sm">Buenos Aires</span>
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden text-black">
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header active="productos" />
 
       {/* Add padding to account for fixed header */}
       <div className="pt-20">
