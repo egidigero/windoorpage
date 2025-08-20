@@ -21,45 +21,48 @@ export default function Header({ active }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const linkClasses = (id: HeaderProps["active"]) =>
+  const textColor = isScrolled ? "text-black" : "text-white"
+  const linkClasses = (id: HeaderProps["active"], color: string) =>
     active === id
-      ? "text-black font-medium"
-      : "hover:opacity-70 transition-all duration-300 font-medium text-black"
+      ? `${color} font-medium`
+      : `hover:opacity-70 transition-all duration-300 font-medium ${color}`
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-white shadow-sm"
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold tracking-wide text-black">
+            <Link href="/" className={`text-2xl font-bold tracking-wide ${textColor}`}>
               WINDOOR
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className={linkClasses("inicio")}>Inicio</Link>
-            <Link href="/productos" className={linkClasses("productos")}>
+            <Link href="/" className={linkClasses("inicio", textColor)}>
+              Inicio
+            </Link>
+            <Link href="/productos" className={linkClasses("productos", textColor)}>
               Productos
             </Link>
-            <Link href="/#nosotros" className={linkClasses("nosotros")}>
+            <Link href="/#nosotros" className={linkClasses("nosotros", textColor)}>
               Nosotros
             </Link>
-            <Link href="/proyectos" className={linkClasses("proyectos")}>
+            <Link href="/proyectos" className={linkClasses("proyectos", textColor)}>
               Proyectos
             </Link>
-            <Link href="/#contacto" className={linkClasses("contacto")}>
+            <Link href="/#contacto" className={linkClasses("contacto", textColor)}>
               Contacto
             </Link>
           </nav>
 
           {/* Contact Info */}
-          <div className="hidden lg:flex items-center space-x-4 text-black">
+          <div className={`hidden lg:flex items-center space-x-4 ${textColor}`}>
             <div className="flex items-center space-x-2">
               <Phone className="w-4 h-4" />
               <span className="text-sm">+54 11 3042-6971</span>
@@ -73,7 +76,7 @@ export default function Header({ active }: HeaderProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-black"
+            className={`md:hidden ${textColor}`}
           >
             <div className="relative w-6 h-6">
               <span
@@ -105,35 +108,35 @@ export default function Header({ active }: HeaderProps) {
             <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`${linkClasses("inicio")} py-2 px-4 rounded hover:bg-gray-100`}
+              className={`${linkClasses("inicio", "text-black")} py-2 px-4 rounded hover:bg-gray-100`}
             >
               Inicio
             </Link>
             <Link
               href="/productos"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`${linkClasses("productos")} py-2 px-4 rounded hover:bg-gray-100`}
+              className={`${linkClasses("productos", "text-black")} py-2 px-4 rounded hover:bg-gray-100`}
             >
               Productos
             </Link>
             <Link
               href="/#nosotros"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`${linkClasses("nosotros")} py-2 px-4 rounded hover:bg-gray-100`}
+              className={`${linkClasses("nosotros", "text-black")} py-2 px-4 rounded hover:bg-gray-100`}
             >
               Nosotros
             </Link>
             <Link
               href="/proyectos"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`${linkClasses("proyectos")} py-2 px-4 rounded hover:bg-gray-100`}
+              className={`${linkClasses("proyectos", "text-black")} py-2 px-4 rounded hover:bg-gray-100`}
             >
               Proyectos
             </Link>
             <Link
               href="/#contacto"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`${linkClasses("contacto")} py-2 px-4 rounded hover:bg-gray-100`}
+              className={`${linkClasses("contacto", "text-black")} py-2 px-4 rounded hover:bg-gray-100`}
             >
               Contacto
             </Link>
