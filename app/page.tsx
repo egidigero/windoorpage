@@ -3,14 +3,11 @@
 import { Button } from "@/components/ui/button"
 import {
   Calendar,
-  Phone,
-  MapPin,
   X,
   ChevronLeft,
   ChevronRight,
   ArrowRight,
 } from "lucide-react"
-import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
@@ -18,12 +15,11 @@ import Footer from "@/components/Footer"
 import HeroSection from "@/components/home/HeroSection"
 import ServiciosSection from "@/components/home/ServiciosSection"
 import ContactoSection from "@/components/home/ContactoSection"
+import Header from "@/components/Header"
 
 export default function WindoorHomepage() {
   const { toast } = useToast()
-  const [isScrolled, setIsScrolled] = useState(false)
   const [showReservationModal, setShowReservationModal] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
   const [selectedTime, setSelectedTime] = useState("")
   const [currentMonth, setCurrentMonth] = useState<Date | null>(null)
@@ -33,12 +29,6 @@ export default function WindoorHomepage() {
   useEffect(() => {
     setIsMounted(true)
     setCurrentMonth(new Date())
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const generateCalendarDays = () => {
@@ -205,163 +195,7 @@ export default function WindoorHomepage() {
           </div>
 
           {/* Header */}
-          <header
-            className={`fixed left-0 right-0 z-40 transition-all duration-500 ease-in-out top-0 ${
-              isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
-            }`}
-          >
-            <div className="container mx-auto px-4 py-6">
-              <div className="flex items-center justify-between">
-                {/* Logo */}
-                <div className="flex items-center">
-                  <span
-                    className={`text-2xl font-bold tracking-wide transition-colors duration-500 ${
-                      isScrolled ? "text-black" : "text-white"
-                    }`}
-                  >
-                    WINDOOR
-                  </span>
-                </div>
-
-                {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-8">
-                  <Link
-                    href="/productos"
-                    className={`hover:opacity-70 transition-all duration-300 font-medium ${
-                      isScrolled ? "text-black" : "text-white"
-                    }`}
-                  >
-                    Productos
-                  </Link>
-                  <Link
-                    href="#nosotros"
-                    className={`hover:opacity-70 transition-all duration-300 font-medium ${
-                      isScrolled ? "text-black" : "text-white"
-                    }`}
-                  >
-                    Nosotros
-                  </Link>
-                  <Link
-                    href="/proyectos"
-                    className={`hover:opacity-70 transition-all duration-300 font-medium ${
-                      isScrolled ? "text-black" : "text-white"
-                    }`}
-                  >
-                    Proyectos
-                  </Link>
-                  <Link
-                    href="#contacto"
-                    className={`hover:opacity-70 transition-all duration-300 font-medium ${
-                      isScrolled ? "text-black" : "text-white"
-                    }`}
-                  >
-                    Contacto
-                  </Link>
-                </nav>
-
-                {/* Contact Info */}
-                <div
-                  className={`hidden lg:flex items-center space-x-4 transition-colors duration-500 ${
-                    isScrolled ? "text-black" : "text-white"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Phone className="w-4 h-4" />
-                    <span className="text-sm">+54 11 3042-6971</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4" />
-                    <span className="text-sm">Buenos Aires</span>
-                  </div>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className={`md:hidden transition-colors duration-500 ${isScrolled ? "text-black" : "text-white"}`}
-                >
-                  <div className="relative w-6 h-6">
-                    <span
-                      className={`absolute top-1 left-0 w-6 h-0.5 bg-current transition-all duration-300 ${
-                        isMobileMenuOpen ? "rotate-45 top-3" : ""
-                      }`}
-                    ></span>
-                    <span
-                      className={`absolute top-3 left-0 w-6 h-0.5 bg-current transition-all duration-300 ${
-                        isMobileMenuOpen ? "opacity-0" : ""
-                      }`}
-                    ></span>
-                    <span
-                      className={`absolute top-5 left-0 w-6 h-0.5 bg-current transition-all duration-300 ${
-                        isMobileMenuOpen ? "-rotate-45 top-3" : ""
-                      }`}
-                    ></span>
-                  </div>
-                </button>
-              </div>
-
-              {/* Mobile Menu */}
-              <div
-                className={`md:hidden transition-all duration-300 ease-in-out ${
-                  isMobileMenuOpen ? "max-h-96 opacity-100 mt-6" : "max-h-0 opacity-0 overflow-hidden"
-                }`}
-              >
-                <nav
-                  className={`flex flex-col space-y-4 py-4 px-2 rounded-lg ${
-                    isScrolled ? "bg-white/95 backdrop-blur-md" : "bg-black/20 backdrop-blur-md"
-                  }`}
-                >
-                  <Link
-                    href="/productos"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`hover:opacity-70 transition-all duration-300 font-medium py-2 px-4 rounded ${
-                      isScrolled ? "text-black hover:bg-gray-100" : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    Productos
-                  </Link>
-                  <Link
-                    href="#nosotros"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`hover:opacity-70 transition-all duration-300 font-medium py-2 px-4 rounded ${
-                      isScrolled ? "text-black hover:bg-gray-100" : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    Nosotros
-                  </Link>
-                  <Link
-                    href="/proyectos"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`hover:opacity-70 transition-all duration-300 font-medium py-2 px-4 rounded ${
-                      isScrolled ? "text-black hover:bg-gray-100" : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    Proyectos
-                  </Link>
-                  <Link
-                    href="#contacto"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`hover:opacity-70 transition-all duration-300 font-medium py-2 px-4 rounded ${
-                      isScrolled ? "text-black hover:bg-gray-100" : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    Contacto
-                  </Link>
-
-                  <div className={`border-t pt-4 mt-4 space-y-2 ${isScrolled ? "border-gray-200" : "border-white/20"}`}>
-                    <div className={`flex items-center space-x-2 px-4 py-2 ${isScrolled ? "text-black" : "text-white"}`}>
-                      <Phone className="w-4 h-4" />
-                      <span className="text-sm">+54 11 3042-6971</span>
-                    </div>
-                    <div className={`flex items-center space-x-2 px-4 py-2 ${isScrolled ? "text-black" : "text-white"}`}>
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">Buenos Aires</span>
-                    </div>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </header>
+          <Header active="inicio" />
 
           {/* Reservation Modal */}
           {showReservationModal && (
