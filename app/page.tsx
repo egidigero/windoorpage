@@ -52,7 +52,7 @@ export default function WindoorHomepage() {
       date.setDate(startDate.getDate() + i)
 
       const isCurrentMonth = date.getMonth() === month
-      const isPast = date < today.setHours(0, 0, 0, 0)
+      const isPast = date.getTime() < today.setHours(0, 0, 0, 0)
       const isWeekend = date.getDay() === 0 || date.getDay() === 6
 
       days.push({
