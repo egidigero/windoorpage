@@ -52,7 +52,13 @@ export const metadata: Metadata = {
     "geo.position": "-34.4208;-58.6413",
     ICBM: "-34.4208, -58.6413",
   },
-    generator: 'v0.app'
+  generator: 'v0.app',
+
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 }
 
 export default function RootLayout({
