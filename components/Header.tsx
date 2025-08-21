@@ -1,27 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Phone, MapPin } from "lucide-react"
+import { useScrollPosition } from "@/hooks/use-scroll-position"
 
 interface HeaderProps {
   active?: "inicio" | "productos" | "nosotros" | "proyectos" | "contacto"
 }
 
 export default function Header({ active }: HeaderProps) {
-  const [isScrolled, setIsScrolled] = useState(active !== "inicio")
+  const scrollY = useScrollPosition()
+  const isScrolled = active !== "inicio" || scrollY > 50
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    if (active !== "inicio") return
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [active])
 
   const textColor = isScrolled ? "text-black" : "text-white"
   const linkClasses = (id: HeaderProps["active"], color: string) =>

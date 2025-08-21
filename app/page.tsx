@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { useState, useEffect } from "react"
+import { useScrollPosition } from "@/hooks/use-scroll-position"
 import { useToast } from "@/hooks/use-toast"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -29,6 +30,8 @@ export default function WindoorHomepage() {
   const [isMounted, setIsMounted] = useState(false)
   const isMobile = useIsMobile()
   const [isBadgeOpen, setIsBadgeOpen] = useState(false)
+  const scrollY = useScrollPosition()
+  const shouldShowBadge = showDeCasasBadge && scrollY < 100
 
   useEffect(() => {
     setIsMounted(true)
@@ -116,7 +119,7 @@ export default function WindoorHomepage() {
         <div />
       ) : (
         <>
-          {showDeCasasBadge && (
+          {shouldShowBadge && (
             <div className="fixed md:top-20 md:right-6 bottom-6 right-4 z-40">
               <div className="relative group">
                 <div
