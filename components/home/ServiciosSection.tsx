@@ -78,6 +78,7 @@ export default function ServiciosSection() {
                   alt="Interiores personalizados con acabados de máxima calidad"
                   width={1200}
                   height={600}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="w-full h-[600px] object-cover rounded-2xl shadow-xl"
                 />
                 <div className="absolute bottom-6 left-6 right-6">

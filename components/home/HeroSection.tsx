@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Calendar, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import React from "react"
 
 interface HeroSectionProps {
@@ -11,13 +12,16 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onShowReservation }: HeroSectionProps) {
   return (
-    <section
-      className="relative h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/foto_Mesa_de_trabajo_1_xig9nn.jpg-k4cDKWCcIAos0k47ORXgwbtCyy6tOK.jpeg')",
-      }}
-    >
+    <section className="relative h-screen overflow-hidden bg-gray-900">
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/foto_Mesa_de_trabajo_1_xig9nn.jpg-k4cDKWCcIAos0k47ORXgwbtCyy6tOK.jpeg"
+        alt="Showroom de Windoor con ventanales de PVC"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black/40" />
       {/* Hero Content */}
       <div className="relative z-10 flex items-center justify-center h-full">
         <div className="text-center px-4 max-w-4xl mx-auto">

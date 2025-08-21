@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -18,27 +19,27 @@ export default function AberturasPVCClientPage() {
       title: "Casa Moderna - Barrio Marinas",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Ventana+PVC+doble+vidrio",
+      src: "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=80",
       alt: "Ventana PVC con doble vidrio",
       title: "Ventana con Doble Vidrio Hermético",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+balcon+PVC+premium",
+      src: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta balcón PVC premium",
       title: "Puerta Balcón Premium",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Ventanal+panoramico+PVC",
+      src: "https://images.unsplash.com/photo-1507038890895-41ca1a822605?auto=format&fit=crop&w=800&q=80",
       alt: "Ventanal panorámico PVC",
       title: "Ventanal Panorámico",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Abertura+PVC+cocina",
+      src: "https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=800&q=80",
       alt: "Abertura PVC para cocina",
       title: "Ventana de Cocina",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+entrada+PVC",
+      src: "https://images.unsplash.com/photo-1505692794403-1f4873b951d9?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta de entrada PVC",
       title: "Puerta de Entrada Reforzada",
     },
@@ -136,10 +137,12 @@ export default function AberturasPVCClientPage() {
               {projectImages.map((image, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
-                    <img
-                      src={image.src || "/placeholder.svg"}
+                    <Image
+                      src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
