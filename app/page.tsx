@@ -18,6 +18,7 @@ import HeroSection from "@/components/home/HeroSection"
 import ServiciosSection from "@/components/home/ServiciosSection"
 import ContactoSection from "@/components/home/ContactoSection"
 import Header from "@/components/Header"
+import ContactForm from "@/components/ContactForm"
 
 export default function WindoorHomepage() {
   const { toast } = useToast()
@@ -315,76 +316,7 @@ export default function WindoorHomepage() {
                 {/* Updated contact form with all required fields and validations */}
                 <div className="mt-8 pt-6 border-t">
                   <h4 className="text-lg font-medium text-gray-900 mb-4">Tus Datos</h4>
-                  <form className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Nombre completo *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Tu nombre completo"
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono *</label>
-                        <input
-                          type="tel"
-                          required
-                          pattern="[0-9]+"
-                          placeholder="Tu número de teléfono"
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="tu@email.com"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                      />
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de cliente *</label>
-                        <select
-                          required
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        >
-                          <option value="">Seleccionar tipo</option>
-                          <option value="particular">Particular</option>
-                          <option value="profesional">Profesional</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de producto *</label>
-                        <select
-                          required
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        >
-                          <option value="">Seleccionar producto</option>
-                          <option value="aberturas-pvc">Aberturas de PVC</option>
-                          <option value="vestidores-banos">Vestidores y baños</option>
-                          <option value="puertas-interior">Puertas de interior</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Mensaje / Medidas / Observaciones
-                      </label>
-                      <textarea
-                        rows={3}
-                        placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle importante..."
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none"
-                      />
-                    </div>
-                  </form>
+                  <ContactForm className="space-y-4" includeDateTime={false} showSubmitButton={false} />
                 </div>
 
                 {/* Action Buttons */}
