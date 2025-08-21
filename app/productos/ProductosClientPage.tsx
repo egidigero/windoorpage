@@ -16,7 +16,7 @@ export default function ProductosClientPage() {
       id: "aberturas-pvc",
       title: "Aberturas de PVC y Aluminio",
       description:
-        "Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia y terminación premium.",
+        "Aislación térmica, acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia con terminaciones premium.",
       image:
         "/images/windoor-aberturas-marinas.jpeg",
       alt: "Ventanas de PVC blancas en living moderno",
@@ -108,12 +108,12 @@ export default function ProductosClientPage() {
                         </ul>
 
                         {/* CTA Button */}
-                        <Link href={`/productos/${category.id}`}>
+                    
                           <Button className="w-full bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold py-3 rounded-xl transition-all duration-300 hover:shadow-lg group-hover:scale-105">
                             Ver detalles
                             <ArrowRight className="w-4 h-4 ml-2" />
                           </Button>
-                        </Link>
+                      
                       </div>
                     </div>
                   </div>
