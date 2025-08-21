@@ -75,6 +75,7 @@ export default function ProductosClientPage() {
             <div className="max-w-7xl mx-auto">
               <div className="grid lg:grid-cols-3 gap-8">
                 {categories.map((category, index) => (
+                  <Link href={`/productos/${category.id}`}>
                   <div key={category.id} className="group">
                     <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
                       {/* Image */}
@@ -116,6 +117,7 @@ export default function ProductosClientPage() {
                       </div>
                     </div>
                   </div>
+                  </Link>
                 ))}
               </div>
             </div>
