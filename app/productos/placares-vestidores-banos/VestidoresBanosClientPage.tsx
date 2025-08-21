@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
+import { Ruler, Hammer, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
@@ -88,21 +89,21 @@ export default function VestidoresBanosClientPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded"></div>
+                 <Ruler className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Diseño a Medida</h3>
                 <p className="text-sm text-gray-600">Cada espacio único y personalizado</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-full"></div>
+                  <Hammer className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Materiales Nobles</h3>
                 <p className="text-sm text-gray-600">Selección premium de acabados</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-sm"></div>
+                  <CheckCircle2 className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Funcionalidad Diaria</h3>
                 <p className="text-sm text-gray-600">Pensado para tu rutina</p>

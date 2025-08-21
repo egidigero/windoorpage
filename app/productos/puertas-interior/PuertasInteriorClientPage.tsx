@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
+import { Layers, ShieldCheck, Wrench, Lock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
@@ -81,36 +82,35 @@ export default function PuertasInteriorClientPage() {
             <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Puertas de interior</h1>
             <div className="w-24 h-0.5 bg-[#E6D5C3] mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 leading-relaxed font-light mb-12">
-              Puertas a medida con variedad de texturas y hojas, herrajes resistentes y colocación prolija para un
-              cierre perfecto.
+              Puertas a medida con acabados premium: laqueados, enchapados y melamina.
             </p>
 
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded"></div>
+                  <Layers className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Variedad de Texturas</h3>
                 <p className="text-sm text-gray-600">Múltiples acabados y estilos</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-full"></div>
+                  <ShieldCheck className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Herrajes Resistentes</h3>
                 <p className="text-sm text-gray-600">Componentes de larga duración</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-sm"></div>
+                  <Wrench className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Colocación Prolija</h3>
                 <p className="text-sm text-gray-600">Instalación perfecta garantizada</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-lg"></div>
+                  <Lock className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Cierre Perfecto</h3>
                 <p className="text-sm text-gray-600">Ajuste preciso y silencioso</p>
