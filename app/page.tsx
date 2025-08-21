@@ -9,7 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react"
 import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useScrollPosition } from "@/hooks/use-scroll-position"
 import { useToast } from "@/hooks/use-toast"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -39,12 +39,11 @@ export default function WindoorHomepage() {
     setCurrentMonth(new Date())
   }, [])
 
-  const generateCalendarDays = () => {
+  const calendarDays = useMemo(() => {
     if (!currentMonth) return []
     const year = currentMonth.getFullYear()
     const month = currentMonth.getMonth()
     const firstDay = new Date(year, month, 1)
-    const lastDay = new Date(year, month + 1, 0)
     const startDate = new Date(firstDay)
     startDate.setDate(startDate.getDate() - firstDay.getDay())
 
@@ -70,7 +69,7 @@ export default function WindoorHomepage() {
     }
 
     return days
-  }
+  }, [currentMonth])
 
   const availableTimes = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"]
 
@@ -258,7 +257,7 @@ export default function WindoorHomepage() {
                     </div>
 
                     <div className="grid grid-cols-7 gap-1">
-                      {generateCalendarDays().map((day, index) => (
+                      {calendarDays.map((day, index) => (
                         <button
                           key={index}
                           onClick={() =>
