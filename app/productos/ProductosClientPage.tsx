@@ -75,8 +75,11 @@ export default function ProductosClientPage() {
             <div className="max-w-7xl mx-auto">
               <div className="grid lg:grid-cols-3 gap-8">
                 {categories.map((category, index) => (
-                  <Link href={`/productos/${category.id}`}>
-                  <div key={category.id} className="group">
+                  <Link
+                    key={category.id}
+                    href={`/productos/${category.id}`}
+                    className="group"
+                  >
                     <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
                       {/* Image */}
                       <div className="relative h-64 overflow-hidden">
@@ -108,15 +111,17 @@ export default function ProductosClientPage() {
                         </ul>
 
                         {/* CTA Button */}
-                        <Link href={`/productos/${category.id}`}>
-                          <Button className="w-full bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold py-3 rounded-xl transition-all duration-300 hover:shadow-lg group-hover:scale-105">
+                        <Button
+                          asChild
+                          className="w-full bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold py-3 rounded-xl transition-all duration-300 hover:shadow-lg group-hover:scale-105"
+                        >
+                          <span>
                             Ver detalles
                             <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        </Link>
+                          </span>
+                        </Button>
                       </div>
                     </div>
-                  </div>
                   </Link>
                 ))}
               </div>
