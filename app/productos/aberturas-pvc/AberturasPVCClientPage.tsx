@@ -81,8 +81,8 @@ export default function AberturasPVCClientPage() {
             <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Aberturas de PVC</h1>
             <div className="w-24 h-0.5 bg-[#E6D5C3] mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 leading-relaxed font-light mb-12">
-              Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para
-              obras que exigen eficiencia y terminación premium.
+              Aislación térmica, acústica superior, herrajes de primera línea y colocación profesional. Ideal para
+              obras que exigen eficiencia con terminaciones premium.
             </p>
 
             {/* Features Grid */}
