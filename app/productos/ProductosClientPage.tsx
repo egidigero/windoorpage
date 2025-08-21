@@ -18,7 +18,7 @@ export default function ProductosClientPage() {
       description:
         "Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia y terminación premium.",
       image:
-        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=600&q=80",
+        "/images/windoor-aberturas-marinas.jpeg",
       alt: "Ventanas de PVC blancas en living moderno",
       features: [
         "Aislación térmica y acústica",
@@ -28,13 +28,13 @@ export default function ProductosClientPage() {
     },
     {
       id: "vestidores-banos",
-      title: "Vestidores y baños",
+      title: "Placares, vestidores y baños",
       description:
-        "Diseño a medida, materiales nobles y foco en funcionalidad diaria. Integración estética con la obra y plazos confiables.",
+        "Diseño a medida con materiales premium, máxima funcionalidad diaria e integración estética con la obra.",
       image:
-        "https://images.unsplash.com/photo-1600618432448-4110be51c650?auto=format&fit=crop&w=600&q=80",
+        "/images/windoor-bathroom.jpeg",
       alt: "Baño con vanitory doble y espejo iluminado",
-      features: ["Diseño a medida", "Materiales nobles", "Funcionalidad diaria", "Plazos confiables"],
+      features: ["Diseño a medida", "Materiales premium", "Funcionalidad diaria", "Plazos confiables"],
     },
     {
       id: "puertas-interior",
@@ -42,7 +42,7 @@ export default function ProductosClientPage() {
       description:
         "Puertas a medida con acabados premium: laqueados, enchapados y melamina.",
       image:
-        "https://images.unsplash.com/photo-1586105251261-72a756497a12?auto=format&fit=crop&w=600&q=80",
+        "/images/windoor-puertas.jpg",
       alt: "Puerta de interior de madera blanca en pasillo moderno",
       features: ["Variedad de texturas", "Herrajes resistentes", "Colocación prolija", "Cierre perfecto"],
     },

@@ -69,7 +69,7 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1">Email</h4>
-                    <p className="text-gray-600 font-light">info@windoor.com.ar</p>
+                    <p className="text-gray-600 font-light">info.windooraberturas@gmail.com</p>
                     <p className="text-gray-600 font-light">Respuesta en 24hs</p>
                   </div>
                 </div>
