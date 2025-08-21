@@ -27,14 +27,14 @@ export default function ProductosClientPage() {
       ],
     },
     {
-      id: "vestidores-banos",
+      id: "placares-vestidores-banos",
       title: "Placares, vestidores y baños",
       description:
         "Diseño a medida con materiales premium, máxima funcionalidad diaria e integración estética con la obra.",
       image:
         "/images/windoor-bathroom.jpeg",
       alt: "Baño con vanitory doble y espejo iluminado",
-      features: ["Diseño a medida", "Materiales premium", "Funcionalidad diaria", "Plazos confiables"],
+      features: ["Diseño a medida", "Materiales premium", "Funcionalidad diaria"],
     },
     {
       id: "puertas-interior",

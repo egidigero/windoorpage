@@ -69,7 +69,7 @@ export default function VestidoresBanosClientPage() {
               Productos
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Vestidores y baños</span>
+            <span className="text-gray-900 font-medium">Placares, Vestidores y baños</span>
           </div>
         </div>
       </div>
@@ -78,15 +78,14 @@ export default function VestidoresBanosClientPage() {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Vestidores y baños</h1>
+            <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Placares, Vestidores y Baños</h1>
             <div className="w-24 h-0.5 bg-[#E6D5C3] mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 leading-relaxed font-light mb-12">
-              Diseño a medida, materiales nobles y foco en funcionalidad diaria. Integración estética con la obra y
-              plazos confiables.
+              Diseño a medida, materiales premium con foco en funcionalidad diaria.
             </p>
 
             {/* Features Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
                   <div className="w-8 h-8 bg-gray-900 rounded"></div>
@@ -107,13 +106,6 @@ export default function VestidoresBanosClientPage() {
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Funcionalidad Diaria</h3>
                 <p className="text-sm text-gray-600">Pensado para tu rutina</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-lg"></div>
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Plazos Confiables</h3>
-                <p className="text-sm text-gray-600">Entrega en tiempo y forma</p>
               </div>
             </div>
           </div>

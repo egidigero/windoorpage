@@ -7,6 +7,7 @@ import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import { Thermometer, Wrench, Hammer} from "lucide-react"
 import ContactForm from "@/components/ContactForm"
 
 export default function AberturasPVCClientPage() {
@@ -86,34 +87,27 @@ export default function AberturasPVCClientPage() {
             </p>
 
             {/* Features Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded"></div>
+                  <Thermometer className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Aislación Térmica</h3>
                 <p className="text-sm text-gray-600">Máximo confort en todas las estaciones</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-full"></div>
+                  <Wrench className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Herrajes Premium</h3>
                 <p className="text-sm text-gray-600">Componentes de primera línea</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-sm"></div>
+                 <Hammer className="w-8 h-8 text-gray-900" />
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Colocación Profesional</h3>
                 <p className="text-sm text-gray-600">Instalación perfecta garantizada</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#E6D5C3] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gray-900 rounded-lg"></div>
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Garantía Extendida</h3>
-                <p className="text-sm text-gray-600">Respaldo total en tu inversión</p>
               </div>
             </div>
 

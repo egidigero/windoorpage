@@ -141,7 +141,7 @@ export default function ContactForm({
           >
             <option value="">Seleccionar producto</option>
             <option value="aberturas-pvc">Aberturas de PVC</option>
-            <option value="vestidores-banos">Vestidores y baños</option>
+            <option value="placares-vestidores-banos">Placares, Vestidores y Baños</option>
             <option value="puertas-interior">Puertas de interior</option>
           </select>
         </div>
