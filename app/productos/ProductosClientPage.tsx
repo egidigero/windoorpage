@@ -17,7 +17,9 @@ export default function ProductosClientPage() {
       title: "Aberturas de PVC y Aluminio",
       description:
         "Aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia y terminación premium.",
-      image: "/placeholder.svg?height=400&width=600&text=Aberturas+de+PVC+premium",
+      image:
+        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=600&q=80",
+      alt: "Ventanas de PVC blancas en living moderno",
       features: [
         "Aislación térmica y acústica",
         "Herrajes de primera línea",
@@ -30,7 +32,8 @@ export default function ProductosClientPage() {
       description:
         "Diseño a medida, materiales nobles y foco en funcionalidad diaria. Integración estética con la obra y plazos confiables.",
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%C2%BFTe%20gustar%C3%ADa%20que%20tu%20ba%C3%B1o%20se%20vea%20as%C3%ADHacelo%20con%20Windoor.%F0%9F%93%8D%20Remeros%20Plaza%2C%20primer%20piso.%20Local%202006%F0%9F%90%AE.jpg-yKqkqP88fcqoqZVrGWlrbnjTRQveVs.jpeg",
+        "https://images.unsplash.com/photo-1600618432448-4110be51c650?auto=format&fit=crop&w=600&q=80",
+      alt: "Baño con vanitory doble y espejo iluminado",
       features: ["Diseño a medida", "Materiales nobles", "Funcionalidad diaria", "Plazos confiables"],
     },
     {
@@ -38,7 +41,9 @@ export default function ProductosClientPage() {
       title: "Puertas de interior",
       description:
         "Puertas a medida con acabados premium: laqueados, enchapados y melamina.",
-      image: "/placeholder.svg?height=400&width=600&text=Puertas+de+interior+a+medida",
+      image:
+        "https://images.unsplash.com/photo-1586105251261-72a756497a12?auto=format&fit=crop&w=600&q=80",
+      alt: "Puerta de interior de madera blanca en pasillo moderno",
       features: ["Variedad de texturas", "Herrajes resistentes", "Colocación prolija", "Cierre perfecto"],
     },
   ]
@@ -69,16 +74,18 @@ export default function ProductosClientPage() {
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               <div className="grid lg:grid-cols-3 gap-8">
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <div key={category.id} className="group">
                     <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
                       {/* Image */}
                       <div className="relative h-64 overflow-hidden">
                         <Image
-                          src={category.image || "/placeholder.svg"}
-                          alt={category.title}
+                          src={category.image}
+                          alt={category.alt}
                           width={800}
                           height={600}
+                          sizes="(min-width: 1024px) 33vw, 100vw"
+                          priority={index === 0}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

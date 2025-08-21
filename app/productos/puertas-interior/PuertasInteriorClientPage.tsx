@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -13,32 +14,32 @@ export default function PuertasInteriorClientPage() {
 
   const projectImages = [
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+interior+moderna+blanca",
+      src: "https://images.unsplash.com/photo-1586105251261-72a756497a12?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta interior moderna blanca",
       title: "Puerta Moderna Blanca",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+madera+natural+textura",
+      src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta de madera natural con textura",
       title: "Puerta Madera Natural",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+corrediza+minimalista",
+      src: "https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta corrediza minimalista",
       title: "Puerta Corrediza",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+vidrio+esmerilado",
+      src: "https://images.unsplash.com/photo-1616628171852-e7ad0f57d8d2?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta con vidrio esmerilado",
       title: "Puerta con Vidrio",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+doble+hoja+elegante",
+      src: "https://images.unsplash.com/photo-1587134132591-f7af6c8db966?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta doble hoja elegante",
       title: "Puerta Doble Hoja",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Puerta+placard+integrada",
+      src: "https://images.unsplash.com/photo-1529490129431-b4f942243a16?auto=format&fit=crop&w=800&q=80",
       alt: "Puerta de placard integrada",
       title: "Puerta Placard Integrada",
     },
@@ -134,10 +135,12 @@ export default function PuertasInteriorClientPage() {
               {projectImages.map((image, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
-                    <img
-                      src={image.src || "/placeholder.svg"}
+                    <Image
+                      src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">

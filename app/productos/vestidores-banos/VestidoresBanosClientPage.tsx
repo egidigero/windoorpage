@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -23,22 +24,22 @@ export default function VestidoresBanosClientPage() {
       title: "Ducha Premium con Ventana",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Vestidor+a+medida+moderno",
+      src: "https://images.unsplash.com/photo-1616627548380-a4e4978e6b24?auto=format&fit=crop&w=800&q=80",
       alt: "Vestidor a medida moderno",
       title: "Vestidor a Medida",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Ba%C3%B1o+minimalista+marmol",
+      src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
       alt: "Baño minimalista con mármol",
       title: "Baño Minimalista",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Vestidor+con+isla+central",
+      src: "https://images.unsplash.com/photo-1600618432448-4110be51c650?auto=format&fit=crop&w=800&q=80",
       alt: "Vestidor con isla central",
       title: "Vestidor con Isla Central",
     },
     {
-      src: "/placeholder.svg?height=400&width=600&text=Ba%C3%B1o+suite+premium",
+      src: "https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?auto=format&fit=crop&w=800&q=80",
       alt: "Baño suite premium",
       title: "Suite Premium",
     },
@@ -134,10 +135,12 @@ export default function VestidoresBanosClientPage() {
               {projectImages.map((image, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
-                    <img
-                      src={image.src || "/placeholder.svg"}
+                    <Image
+                      src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">

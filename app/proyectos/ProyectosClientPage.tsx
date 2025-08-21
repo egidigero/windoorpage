@@ -57,7 +57,8 @@ export default function ProyectosClientPage() {
       category: "PVC",
       videoType: "youtube",
       videoUrl: "dQw4w9WgXcQ", // Placeholder YouTube ID
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Ventanales+PVC+Panorámicos",
+      thumbnail:
+        "https://images.unsplash.com/photo-1505692794403-1f4873b951d9?auto=format&fit=crop&w=800&q=80",
       description: "Instalación de ventanales panorámicos de PVC con doble vidrio hermético.",
     },
     {
@@ -67,7 +68,8 @@ export default function ProyectosClientPage() {
       category: "Vestidores y baños",
       videoType: "mp4",
       videoUrl: "/placeholder-video.mp4", // Placeholder MP4
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Vestidor+Moderno+a+Medida",
+      thumbnail:
+        "https://images.unsplash.com/photo-1616627548380-a4e4978e6b24?auto=format&fit=crop&w=800&q=80",
       description: "Vestidor personalizado con isla central y sistema de iluminación LED.",
     },
     {
@@ -77,7 +79,8 @@ export default function ProyectosClientPage() {
       category: "Puertas",
       videoType: "vimeo",
       videoUrl: "123456789", // Placeholder Vimeo ID
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Puertas+Interiores+Premium",
+      thumbnail:
+        "https://images.unsplash.com/photo-1586105251261-72a756497a12?auto=format&fit=crop&w=800&q=80",
       description: "Puertas de interior con acabado en madera natural y herrajes premium.",
     },
     {
@@ -87,7 +90,8 @@ export default function ProyectosClientPage() {
       category: "PVC",
       videoType: "youtube",
       videoUrl: "dQw4w9WgXcQ",
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Cocina+Integral+PVC",
+      thumbnail:
+        "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=800&q=80",
       description: "Ventanas de PVC para cocina integral con apertura oscilobatiente.",
     },
     {
@@ -97,7 +101,8 @@ export default function ProyectosClientPage() {
       category: "Vestidores y baños",
       videoType: "mp4",
       videoUrl: "/placeholder-video.mp4",
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Baño+Minimalista+Mármol",
+      thumbnail:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
       description: "Baño minimalista con revestimiento completo en mármol Carrara.",
     },
     {
@@ -106,8 +111,10 @@ export default function ProyectosClientPage() {
       city: "Núñez, CABA",
       category: "Puertas",
       videoType: "image",
-      videoUrl: "/placeholder.svg?height=400&width=600&text=Puertas+Corredizas+Modernas",
-      thumbnail: "/placeholder.svg?height=300&width=400&text=Puertas+Corredizas+Modernas",
+      videoUrl:
+        "https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80",
+      thumbnail:
+        "https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80",
       description: "Sistema de puertas corredizas con rieles ocultos y cierre suave.",
     },
   ]
@@ -163,6 +170,7 @@ export default function ProyectosClientPage() {
             alt={project.title}
             width={800}
             height={600}
+            sizes="100vw"
             className="w-full h-full object-cover"
           />
         )
@@ -251,6 +259,7 @@ export default function ProyectosClientPage() {
                         alt={project.title}
                         width={800}
                         height={600}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
 
