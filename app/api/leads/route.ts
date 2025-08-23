@@ -41,7 +41,9 @@ export async function POST(req: NextRequest) {
   try {
   const url = new URL(req.url);
   const debugFlag = url.searchParams.get('debug') === '1' || process.env.DEBUG_EMAIL_RESPONSE === 'true';
-  const pingFlag = url.searchParams.get('ping') === '1';
+  // Accept several forms: ?ping, ?ping=1, ?ping=true, ?ping=yes
+  const rawPing = url.searchParams.get('ping');
+  const pingFlag = rawPing !== null && (rawPing === '' || rawPing === '1' || rawPing.toLowerCase() === 'true' || rawPing.toLowerCase() === 'yes');
   const body = await req.json().catch(()=>({}));
 
     // Raw connectivity ping (no email send). Call: /api/leads?ping=1
@@ -257,9 +259,10 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
-    const pingFlag = url.searchParams.get('ping') === '1';
+    const rawPing = url.searchParams.get('ping');
+    const pingFlag = rawPing !== null && (rawPing === '' || rawPing === '1' || rawPing.toLowerCase() === 'true' || rawPing.toLowerCase() === 'yes');
     if (!pingFlag) {
-      return NextResponse.json({ ok: false, error: 'MISSING_PING_PARAM', hint: 'Agrega ?ping=1 para probar conectividad SMTP (GET sólo soporta ping).' }, { status: 400 });
+      return NextResponse.json({ ok: false, error: 'MISSING_PING_PARAM', hint: 'Usa ?ping (o ?ping=1 / true / yes) para probar conectividad SMTP (GET sólo soporta ping).', receivedQuery: url.search }, { status: 400 });
     }
     const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
     const host = process.env.SMTP_HOST;
