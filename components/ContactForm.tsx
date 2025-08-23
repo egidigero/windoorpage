@@ -140,7 +140,7 @@ export default function ContactForm({
             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
           >
             <option value="">Seleccionar producto</option>
-            <option value="aberturas-pvc">Aberturas de PVC</option>
+            <option value="aberturas-pvc">Aberturas de PVC y aluminio</option>
             <option value="placares-vestidores-banos">Placares, Vestidores y Baños</option>
             <option value="puertas-interior">Puertas de interior</option>
           </select>
