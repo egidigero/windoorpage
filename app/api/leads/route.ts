@@ -251,3 +251,50 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: false, error: 'SERVER_ERROR' }, { status: 500 });
   }
 }
+
+// Added GET handler so you can open /api/leads?ping=1 directly in the browser.
+// (Previously only POST was implemented, so a GET would return 405.)
+export async function GET(req: NextRequest) {
+  try {
+    const url = new URL(req.url);
+    const pingFlag = url.searchParams.get('ping') === '1';
+    if (!pingFlag) {
+      return NextResponse.json({ ok: false, error: 'MISSING_PING_PARAM', hint: 'Agrega ?ping=1 para probar conectividad SMTP (GET sólo soporta ping).' }, { status: 400 });
+    }
+    const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT || (secure ? 465 : 587));
+    if (!host) return NextResponse.json({ ok:false, error:'MISSING_SMTP_HOST' }, { status:400 });
+    const start = Date.now();
+    const timeoutMs = Number(process.env.SMTP_CONNECTION_TIMEOUT || 10000);
+    const result: any = { host, port, timeoutMs };
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const socket = net.createConnection({ host, port, timeout: timeoutMs }, () => {
+          result.connectedMs = Date.now() - start;
+        });
+        socket.once('data', (d) => {
+          result.banner = d.toString().slice(0,120);
+          socket.destroy();
+          resolve();
+        });
+        socket.on('timeout', () => {
+          result.timeoutMsActual = Date.now() - start;
+          socket.destroy();
+          reject(new Error('TIMEOUT_WAITING_BANNER'));
+        });
+        socket.on('error', (err) => {
+          result.error = err.message;
+          reject(err);
+        });
+      });
+      return NextResponse.json({ ok:true, ping: result });
+    } catch (e:any) {
+      result.failed = true;
+      return NextResponse.json({ ok:false, ping: result }, { status: 504 });
+    }
+  } catch (err:any) {
+    console.error('Lead GET ping error', err);
+    return NextResponse.json({ ok:false, error:'SERVER_ERROR' }, { status:500 });
+  }
+}
