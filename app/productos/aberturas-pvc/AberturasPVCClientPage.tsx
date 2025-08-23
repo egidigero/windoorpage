@@ -6,6 +6,8 @@ import Link from "next/link"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import { ReservationModal } from "@/components/reservation/ReservationModal"
+import { LeadForm } from "@/components/forms/LeadForm"
 
 export default function AberturasPVCClientPage() {
   const [showReservationModal, setShowReservationModal] = useState(false)
@@ -164,123 +166,30 @@ export default function AberturasPVCClientPage() {
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                      placeholder="Tu nombre completo"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
-                    <input
-                      type="tel"
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                      placeholder="Tu número de teléfono"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                    placeholder="tu@email.com"
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Fecha preferida</label>
-                    <input
-                      type="date"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Hora preferida</label>
-                    <select className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
-                      <option value="">Seleccionar hora</option>
-                      <option value="09:00">09:00</option>
-                      <option value="10:00">10:00</option>
-                      <option value="11:00">11:00</option>
-                      <option value="12:00">12:00</option>
-                      <option value="14:00">14:00</option>
-                      <option value="15:00">15:00</option>
-                      <option value="16:00">16:00</option>
-                      <option value="17:00">17:00</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de cliente *</label>
-                    <select
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                    >
-                      <option value="">Seleccionar tipo</option>
-                      <option value="particular">Particular</option>
-                      <option value="profesional">Profesional</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
-                    <select
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                    >
-                      <option value="">Seleccionar producto</option>
-                      <option value="aberturas-pvc">Aberturas de PVC</option>
-                      <option value="vestidores-banos">Vestidores y baños</option>
-                      <option value="puertas-interior">Puertas de interior</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Mensaje / Medidas / Observaciones
-                  </label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none"
-                    placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle que consideres importante..."
-                  />
-                </div>
-
-                <div className="text-center pt-6">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105"
-                  >
-                    Enviar Consulta
-                  </Button>
-                </div>
-              </form>
+              <LeadForm productTypeDefault="aberturas-pvc" submitLabel="Enviar Consulta" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Fixed CTA Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
         <Button
           onClick={scrollToContact}
           className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
         >
           Pedir presupuesto
         </Button>
+        <Button
+          variant="outline"
+          onClick={() => setShowReservationModal(true)}
+          className="border-[#E6D5C3] text-gray-800 hover:bg-[#E6D5C3]/20 font-medium"
+        >
+          Agendar visita
+        </Button>
       </div>
+
+      <ReservationModal open={showReservationModal} onClose={() => setShowReservationModal(false)} productTypePreset="aberturas-pvc" />
 
       {/* Footer */}
       <Footer
