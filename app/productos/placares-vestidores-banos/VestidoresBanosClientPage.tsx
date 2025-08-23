@@ -8,10 +8,10 @@ import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import ContactForm from "@/components/ContactForm"
+import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function VestidoresBanosClientPage() {
-  const [showReservationModal, setShowReservationModal] = useState(false)
+  const [showReservationModal] = useState(false)
 
   const projectImages = [
     {
@@ -159,7 +159,7 @@ export default function VestidoresBanosClientPage() {
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-              <ContactForm />
+              <LeadBookingForm defaultProductType="placares-vestidores-banos" useCalendarInline maxDate={(() => { const d=new Date(); d.setMonth(d.getMonth()+1); return d; })()} />
             </div>
           </div>
         </div>
