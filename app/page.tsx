@@ -129,14 +129,6 @@ export default function WindoorHomepage() {
           <HeroSection onShowReservation={() => setShowReservationModal(true)} />
           <ServiciosSection />
           <ContactoSection onShowReservation={() => setShowReservationModal(true)} />
-          {/* Lead form standalone (sin modal) */}
-          <section id="contacto" className="py-20 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto bg-gray-50 rounded-3xl p-8 lg:p-12">
-                <LeadBookingForm />
-              </div>
-            </div>
-          </section>
 
           {/* Footer */}
           <Footer
