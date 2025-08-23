@@ -46,6 +46,13 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   const mountedRef = useRef(true);
   useEffect(() => () => { mountedRef.current = false; }, []);
 
+  // Determina si necesitamos calendario inline avanzado
+  const needInlineCalendar = useCalendarInline && withInlinePreferredDateTime && !controlledDate && !controlledTime;
+  const inlineState = useBookingState(); // siempre creado (ligero) para poder usar condicionalmente
+
+  const inlineDate = needInlineCalendar ? inlineState.selectedDate : undefined;
+  const inlineTime = needInlineCalendar ? inlineState.selectedTime : undefined;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
@@ -57,6 +64,15 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
     // Merge controlled date/time if provided
     if (controlledDate) data["preferredDate"] = controlledDate;
     if (controlledTime) data["preferredTime"] = controlledTime;
+    if (needInlineCalendar) {
+      data["preferredDate"] = inlineDate || "";
+      data["preferredTime"] = inlineTime || "";
+      if (!inlineDate || !inlineTime) {
+        toast({ title: "Seleccioná fecha y horario", description: "Debés elegir ambos antes de enviar.", variant: "destructive" });
+        setSubmitting(false);
+        return;
+      }
+    }
 
     try {
       await onSubmit?.(data);
@@ -99,27 +115,17 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       </div>
 
       {withInlinePreferredDateTime && !controlledDate && !controlledTime && (
-        useCalendarInline ? (
-          (() => {
-            const inlineState = useBookingState();
-            const dateSelected = inlineState.selectedDate;
-            const timeSelected = inlineState.selectedTime;
-            return (
-              <div className="space-y-4">
-                <DateTimePicker state={inlineState as any} />
-                {/* Hidden inputs para que formen parte del submit */}
-                <input type="hidden" name="preferredDate" value={dateSelected} />
-                <input type="hidden" name="preferredTime" value={timeSelected} />
-                {!dateSelected || !timeSelected ? (
-                  <p className="text-xs text-gray-500">Seleccioná fecha y horario para habilitar el envío.</p>
-                ) : (
-                  <div className="flex items-center text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-1 w-fit">Fecha y hora seleccionadas.</div>
-                )}
-                {/* Controlar deshabilitado del botón principal más abajo via success & selected */}
-                {/* Guardamos selección en estado para onSubmit: ya se incluye en hidden inputs */}
-              </div>
-            );
-          })()
+        needInlineCalendar ? (
+          <div className="space-y-4">
+            <DateTimePicker state={inlineState as any} />
+            <input type="hidden" name="preferredDate" value={inlineDate || ""} />
+            <input type="hidden" name="preferredTime" value={inlineTime || ""} />
+            {!inlineDate || !inlineTime ? (
+              <p className="text-xs text-gray-500">Seleccioná fecha y horario para habilitar el envío.</p>
+            ) : (
+              <div className="flex items-center text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-1 w-fit">Fecha y hora seleccionadas.</div>
+            )}
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
             <div>
@@ -177,7 +183,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
 
     {showSubmitButton && !success && (
         <div className="text-center pt-6">
-      <Button disabled={submitting || (useCalendarInline && withInlinePreferredDateTime && !controlledDate && !controlledTime && (() => { /* evaluar selección */ return (() => { /* hack inline state not accessible here; fallback: rely on hidden inputs presence */ return false; })(); })())} type="submit" size="lg" className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:opacity-50">
+          <Button disabled={submitting || (needInlineCalendar && (!inlineDate || !inlineTime))} type="submit" size="lg" className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:opacity-50">
             {submitting ? "Enviando..." : submitLabel}
           </Button>
         </div>

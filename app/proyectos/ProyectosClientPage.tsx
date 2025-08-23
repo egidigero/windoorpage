@@ -371,7 +371,7 @@ export default function ProyectosClientPage() {
               </div>
 
               <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                <LeadBookingForm />
+                <LeadBookingForm useCalendarInline maxDate={(() => { const d=new Date(); d.setMonth(d.getMonth()+1); return d; })()} />
               </div>
             </div>
           </div>

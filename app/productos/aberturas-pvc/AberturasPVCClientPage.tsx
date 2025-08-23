@@ -162,7 +162,7 @@ export default function AberturasPVCClientPage() {
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-              <LeadBookingForm defaultProductType="aberturas-pvc" />
+              <LeadBookingForm defaultProductType="aberturas-pvc" useCalendarInline maxDate={(() => { const d=new Date(); d.setMonth(d.getMonth()+1); return d; })()} />
             </div>
           </div>
         </div>

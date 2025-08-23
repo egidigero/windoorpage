@@ -42,7 +42,17 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) { // click directo sobre el backdrop
+          onOpenChange(false);
+          state.reset();
+        }
+      }}
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-2xl font-semibold text-gray-900">Agendar Visita al Showroom</h3>
@@ -80,6 +90,6 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
           </Button>
         </div>
       </div>
-    </div>
+  </div>
   );
 }
