@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Montserrat } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
+import { BookingProvider } from "@/components/booking/BookingProvider";
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -73,7 +74,9 @@ export default function RootLayout({
         {/* ...otros tags... */}
       </head>
       <body className={`${inter.className} ${montserrat.variable}`}>
-        {children}
+        <BookingProvider>
+          {children}
+        </BookingProvider>
         <Toaster />
       </body>
     </html>

@@ -11,12 +11,9 @@ import HeroSection from "@/components/home/HeroSection"
 import ServiciosSection from "@/components/home/ServiciosSection"
 import ContactoSection from "@/components/home/ContactoSection"
 import Header from "@/components/Header"
-import { BookingModal } from "@/components/booking/BookingModal"
-import { FloatingBookingButton } from "@/components/booking/FloatingBookingButton"
 import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function WindoorHomepage() {
-  const [showReservationModal, setShowReservationModal] = useState(false)
   const [showDeCasasBadge, setShowDeCasasBadge] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
   const isMobile = useIsMobile()
@@ -117,17 +114,14 @@ export default function WindoorHomepage() {
             </div>
           )}
 
-          {/* Floating Widgets */}
-          <FloatingBookingButton onClick={() => setShowReservationModal(true)} />
 
           {/* Header */}
           <Header active="inicio" />
 
-          <BookingModal open={showReservationModal} onOpenChange={setShowReservationModal} />
 
-          <HeroSection onShowReservation={() => setShowReservationModal(true)} />
+          <HeroSection onShowReservation={() => { /* global provider handles open via button; could add bus later */ }} />
           <ServiciosSection />
-          <ContactoSection onShowReservation={() => setShowReservationModal(true)} />
+          <ContactoSection onShowReservation={() => { /* global provider button remains visible */ }} />
 
           {/* Footer */}
           <Footer

@@ -75,7 +75,22 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
     }
 
     try {
-      await onSubmit?.(data);
+      if (onSubmit) {
+        await onSubmit(data);
+      } else {
+        // envío a la API por defecto
+        try {
+          const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+          if (!res.ok) {
+            throw new Error('Error API');
+          }
+        } catch (apiErr) {
+          console.error(apiErr);
+          toast({ title: 'Error', description: 'No se pudo enviar el formulario.', variant: 'destructive' });
+          setSubmitting(false);
+          return;
+        }
+      }
       setSuccess(true);
       toast({ title: "Consulta enviada", description: "Nos pondremos en contacto a la brevedad." });
       if (autoReset && mountedRef.current && formEl && document.contains(formEl)) {
@@ -92,6 +107,10 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
 
   return (
   <form ref={ref} className={cn("space-y-6", className)} onSubmit={handleSubmit}>
+      {/* Honeypot hidden field (anti-spam). Bots often fill every input. */}
+      <div style={{ display: 'none' }} aria-hidden="true">
+        <input type="text" name={process.env.NEXT_PUBLIC_HONEYPOT_FIELD || 'website'} tabIndex={-1} autoComplete="off" />
+      </div>
       {success && showInlineSuccessMessage && (
         <div className="p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
           <p className="font-medium mb-1">¡Consulta enviada correctamente!</p>
