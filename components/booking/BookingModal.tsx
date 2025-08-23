@@ -46,10 +46,15 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(merged)
         });
-        if (!res.ok) throw new Error('API error');
+        if (!res.ok) {
+          let msg = 'Hubo un error. Intentá reservar nuevamente.';
+          try { const j = await res.json(); if (j?.error === 'EMAIL_CONNECTION_FAILED') msg = 'No se pudo conectar al servicio de correo. Intentá más tarde.'; } catch {}
+          toast({ title: 'Error', description: msg, variant: 'destructive' });
+          return;
+        }
       } catch (apiErr) {
         console.error('[BookingModal] API send error', apiErr);
-        toast({ title: 'Error al enviar', description: 'No se pudo completar el envío del mail.', variant: 'destructive' });
+        toast({ title: 'Error', description: 'Hubo un error. Intentá reservar nuevamente.', variant: 'destructive' });
         return; // no cerrar si falló
       }
       // Callback opcional (tracking) después del envío
@@ -60,7 +65,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('[BookingModal] Error en handleSubmit', err);
-  toast({ title: 'Error al confirmar', description: 'Ocurrió un problema inesperado.', variant: 'destructive' });
+  toast({ title: 'Error', description: 'Hubo un error. Intentá reservar nuevamente.', variant: 'destructive' });
     }
   };
 

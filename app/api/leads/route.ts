@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // Simple in-memory rate limiter (note: for serverless may reset on cold starts)
 interface RateBucket { count: number; expires: number }
 const rateMap = new Map<string, RateBucket>();
@@ -55,12 +58,20 @@ export async function POST(req: NextRequest) {
     const preferredTime = body.preferredTime || '';
 
     const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
-    const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || (secure ? 465 : 587)),
       secure,
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
     });
+
+    // Verificar conexión (opcional, rápido)
+    try {
+      await transporter.verify();
+    } catch (verErr) {
+      console.error('SMTP verify failed', verErr);
+      return NextResponse.json({ ok: false, error: 'EMAIL_CONNECTION_FAILED' }, { status: 502 });
+    }
 
     const notify = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
     const from = process.env.FROM_EMAIL || notify;
@@ -78,6 +89,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (err: any) {
     console.error('Lead API error', err);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  return NextResponse.json({ ok: false, error: 'SERVER_ERROR' }, { status: 500 });
   }
 }

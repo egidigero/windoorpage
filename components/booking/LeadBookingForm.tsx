@@ -82,11 +82,15 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
         try {
           const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
           if (!res.ok) {
-            throw new Error('Error API');
+            let msg = 'Hubo un error. Intentá reservar nuevamente.';
+            try { const j = await res.json(); if (j?.error === 'EMAIL_CONNECTION_FAILED') msg = 'No se pudo conectar al servicio de correo. Intentá más tarde.'; } catch {}
+            toast({ title: 'Error', description: msg, variant: 'destructive' });
+            setSubmitting(false);
+            return;
           }
         } catch (apiErr) {
           console.error(apiErr);
-          toast({ title: 'Error', description: 'No se pudo enviar el formulario.', variant: 'destructive' });
+          toast({ title: 'Error', description: 'Hubo un error. Intentá reservar nuevamente.', variant: 'destructive' });
           setSubmitting(false);
           return;
         }
@@ -98,7 +102,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       }
     } catch (err) {
       console.error(err);
-  toast({ title: "Error", description: "Ocurrió un problema al enviar. Intentalo nuevamente.", variant: "destructive" });
+  toast({ title: "Error", description: "Hubo un error. Intentá reservar nuevamente.", variant: "destructive" });
       setSuccess(false);
     } finally {
       setSubmitting(false);
