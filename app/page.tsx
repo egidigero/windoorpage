@@ -19,6 +19,7 @@ import { useState, useEffect } from "react"
 // import { useToast } from "@/hooks/use-toast" // removed unused toast after modularization
 import Footer from "@/components/Footer"
 import { ReservationModal, ReservationFloatingButton } from "@/components/reservation/ReservationModal"
+import { LeadForm } from "@/components/forms/LeadForm"
 
 export default function WindoorHomepage() {
   // const { toast } = useToast() // no longer needed here
@@ -271,7 +272,8 @@ export default function WindoorHomepage() {
         </div>
       </header>
 
-  <ReservationModal open={showReservationModal} onClose={() => setShowReservationModal(false)} />
+  {/* Reservation Modal (global) */}
+  {/* Moved to bottom for clearer structure */}
 
       {/* Hero Section */}
       <section
@@ -548,110 +550,7 @@ export default function WindoorHomepage() {
                 </div>
 
                 <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                  <form className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
-                        <input
-                          type="text"
-                          required
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                          placeholder="Tu nombre completo"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
-                        <input
-                          type="tel"
-                          required
-                          pattern="[0-9]+"
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                          placeholder="Tu número de teléfono"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                      <input
-                        type="email"
-                        required
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        placeholder="tu@email.com"
-                      />
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Fecha preferida</label>
-                        <input
-                          type="date"
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Hora preferida</label>
-                        <select className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
-                          <option value="">Seleccionar hora</option>
-                          <option value="09:00">09:00</option>
-                          <option value="10:00">10:00</option>
-                          <option value="11:00">11:00</option>
-                          <option value="12:00">12:00</option>
-                          <option value="14:00">14:00</option>
-                          <option value="15:00">15:00</option>
-                          <option value="16:00">16:00</option>
-                          <option value="17:00">17:00</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de cliente *</label>
-                        <select
-                          required
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        >
-                          <option value="">Seleccionar tipo</option>
-                          <option value="particular">Particular</option>
-                          <option value="profesional">Profesional</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
-                        <select
-                          required
-                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent"
-                        >
-                          <option value="">Seleccionar producto</option>
-                          <option value="aberturas-pvc">Aberturas de PVC</option>
-                          <option value="vestidores-banos">Vestidores y baños</option>
-                          <option value="puertas-interior">Puertas de interior</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Mensaje / Medidas / Observaciones
-                      </label>
-                      <textarea
-                        rows={4}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none"
-                        placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle que consideres importante..."
-                      />
-                    </div>
-
-                    <div className="text-center pt-6">
-                      <Button
-                        type="submit"
-                        size="lg"
-                        className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-110"
-                      >
-                        Enviar Consulta
-                      </Button>
-                    </div>
-                  </form>
+                  <LeadForm submitLabel="Enviar Consulta" />
                 </div>
               </div>
             </div>
@@ -683,7 +582,9 @@ export default function WindoorHomepage() {
       </section>
 
       {/* Footer */}
-      <Footer
+  <ReservationModal open={showReservationModal} onClose={() => setShowReservationModal(false)} />
+
+  <Footer
         links={[
           { label: "Productos", href: "/productos" },
           { label: "Nosotros", href: "#nosotros" },
