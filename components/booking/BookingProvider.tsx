@@ -9,13 +9,11 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      if (params.get('testModal') === '1' || (window as any).BOOKING_FORCE_OPEN) {
-        if (process.env.NODE_ENV !== 'production') console.log('[BookingProvider] auto-open via query/flag');
+  if (params.get('testModal') === '1' || (window as any).BOOKING_FORCE_OPEN) {
         setOpen(true);
       }
       // Escuchar evento global para abrir desde cualquier parte (Header, etc.)
       const handler = () => {
-        if (process.env.NODE_ENV !== 'production') console.log('[BookingProvider] open-booking-modal event');
         setOpen(true);
       };
       window.addEventListener('open-booking-modal', handler as EventListener);
@@ -32,10 +30,7 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <FloatingBookingButton onClick={() => {
-        if (process.env.NODE_ENV !== 'production') console.log('[BookingProvider] click floating button -> setOpen(true)');
-        setOpen(true);
-      }} />
+  <FloatingBookingButton onClick={() => { setOpen(true); }} />
       {process.env.NODE_ENV !== 'production' && (
         <div style={{position:'fixed',bottom:4,left:4,fontSize:10,background:'#000',color:'#fff',padding:'2px 4px',borderRadius:4,opacity:0.5,zIndex:49}}>
           modal:{String(open)}

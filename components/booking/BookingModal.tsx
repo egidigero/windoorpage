@@ -21,7 +21,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
   const state = useBookingState();
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement | null>(null);
-  if (process.env.NODE_ENV !== 'production') console.log('[BookingModal] render open=', open);
+  // debug logs removed
   // Scroll lock while open
   useEffect(() => {
     if (open) {
@@ -87,8 +87,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
       onClick={(e) => {
-        if (e.target === e.currentTarget) { // click directo sobre el backdrop
-          if (process.env.NODE_ENV !== 'production') console.log('[BookingModal] backdrop click -> close');
+  if (e.target === e.currentTarget) { // click directo sobre el backdrop
           onOpenChange(false);
           state.reset();
         }
@@ -99,7 +98,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
       <div className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-2xl font-semibold text-gray-900">Agendar Visita al Showroom</h3>
-          <button onClick={() => { if (process.env.NODE_ENV !== 'production') console.log('[BookingModal] close button'); onOpenChange(false); state.reset(); }} className="p-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Cerrar">
+          <button onClick={() => { onOpenChange(false); state.reset(); }} className="p-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Cerrar">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -121,11 +120,10 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         </div>
 
         <div className="flex justify-end space-x-4 mt-8">
-      <Button variant="outline" onClick={() => { if (process.env.NODE_ENV !== 'production') console.log('[BookingModal] cancelar'); onOpenChange(false); state.reset(); }} className="px-6 py-3">Cancelar</Button>
+  <Button variant="outline" onClick={() => { onOpenChange(false); state.reset(); }} className="px-6 py-3">Cancelar</Button>
           <Button
             disabled={!state.selectedDate || !state.selectedTime}
             onClick={() => {
-        if (process.env.NODE_ENV !== 'production') console.log('[BookingModal] confirm button -> requestSubmit');
               formRef.current?.requestSubmit();
             }}
             className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 disabled:opacity-50"
