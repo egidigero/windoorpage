@@ -5,11 +5,7 @@ import { Calendar, MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react
 import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 import React from "react"
 
-interface ContactoSectionProps {
-  onShowReservation: () => void
-}
-
-export default function ContactoSection({ onShowReservation }: ContactoSectionProps) {
+export default function ContactoSection() {
   const maxDate = (() => { const d = new Date(); d.setMonth(d.getMonth() + 1); return d; })();
   return (
     <section id="contacto" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
@@ -79,7 +75,7 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
                 <Button
-                  onClick={onShowReservation}
+                  onClick={() => { try { window.dispatchEvent(new Event('open-booking-modal')); } catch {} }}
                   size="lg"
                   className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 border-0"
                 >

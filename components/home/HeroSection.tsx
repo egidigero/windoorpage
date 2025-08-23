@@ -6,11 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import React from "react"
 
-interface HeroSectionProps {
-  onShowReservation: () => void
-}
-
-export default function HeroSection({ onShowReservation }: HeroSectionProps) {
+export default function HeroSection() {
   return (
     <section className="relative h-screen overflow-hidden bg-gray-900">
       <Image
@@ -41,7 +37,18 @@ export default function HeroSection({ onShowReservation }: HeroSectionProps) {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Button
-              onClick={onShowReservation}
+              onClick={() => {
+                try {
+                  const w: any = window;
+                  if (typeof w.openBookingModal === 'function') {
+                    w.openBookingModal();
+                  } else {
+                    // Fallback: set flag so provider auto abre y disparar evento
+                    w.BOOKING_FORCE_OPEN = true;
+                    window.dispatchEvent(new Event('open-booking-modal'));
+                  }
+                } catch (e) { /* silent */ }
+              }}
               size="lg"
               className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-8 py-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:scale-105 border-0"
             >

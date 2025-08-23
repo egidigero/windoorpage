@@ -119,9 +119,9 @@ export default function WindoorHomepage() {
           <Header active="inicio" />
 
 
-          <HeroSection onShowReservation={() => { /* global provider handles open via button; could add bus later */ }} />
+          <HeroSection />
           <ServiciosSection />
-          <ContactoSection onShowReservation={() => { /* global provider button remains visible */ }} />
+          <ContactoSection />
 
           {/* Footer */}
           <Footer
