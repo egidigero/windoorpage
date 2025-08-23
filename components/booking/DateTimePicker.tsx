@@ -16,6 +16,8 @@ export interface DateTimePickerProps {
 function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelected, disabled }: DateTimePickerProps) {
   const { calendarDays, monthNames, currentMonth, prevMonth, nextMonth, selectedDate, setSelectedDate, selectedTime, setSelectedTime, availableTimes, maxDate } = state as any;
   const atMaxMonth = currentMonth.getFullYear() === maxDate.getFullYear() && currentMonth.getMonth() === maxDate.getMonth();
+  const today = new Date();
+  const atMinMonth = currentMonth.getFullYear() === today.getFullYear() && currentMonth.getMonth() === today.getMonth();
 
   return (
     <div className={cn("grid md:grid-cols-2 gap-8", className)}>
@@ -23,7 +25,13 @@ function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelec
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-lg font-medium text-gray-900">Seleccionar Fecha</h4>
           <div className="flex items-center space-x-2">
-            <button type="button" onClick={prevMonth} className="p-1 hover:bg-gray-100 rounded transition-colors" aria-label="Mes anterior">
+            <button
+              type="button"
+              disabled={atMinMonth}
+              onClick={() => { if (!atMinMonth) prevMonth(); }}
+              className="p-1 hover:bg-gray-100 disabled:opacity-30 rounded transition-colors"
+              aria-label="Mes anterior"
+            >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <span className="text-sm font-medium min-w-[120px] text-center">

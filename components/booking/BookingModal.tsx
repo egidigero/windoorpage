@@ -1,12 +1,12 @@
 "use client";
 
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBookingState } from "./useBookingState";
 import { DateTimePicker } from "./DateTimePicker";
 import { LeadBookingForm } from "./LeadBookingForm";
 import { useToast } from "@/hooks/use-toast";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export interface BookingModalProps {
@@ -19,6 +19,7 @@ export interface BookingModalProps {
 
 export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType, defaultClientType }: BookingModalProps) {
   const state = useBookingState();
+  const [sending, setSending] = useState(false);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement | null>(null);
   // debug logs removed
@@ -38,6 +39,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         toast({ title: "Falta seleccionar fecha y horario", description: "Elegí ambos antes de confirmar." });
         return;
       }
+      setSending(true);
       const merged = { ...payload, preferredDate: state.selectedDate, preferredTime: state.selectedTime };
       // Envío a la API para correo (mismo mecanismo que formularios inline)
       try {
@@ -62,22 +64,26 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
             }
           } catch {}
           toast({ title: 'Error', description: msg, variant: 'destructive' });
+          setSending(false);
           return;
         }
       } catch (apiErr) {
         console.error('[BookingModal] API send error', apiErr);
         toast({ title: 'Error', description: 'Hubo un error. Intentá reservar nuevamente.', variant: 'destructive' });
+        setSending(false);
         return; // no cerrar si falló
       }
-      // Callback opcional (tracking) después del envío
-      await onConfirm?.(merged);
-      toast({ title: "Reserva confirmada", description: `Reserva para ${state.selectedDate} ${state.selectedTime} enviada.` });
+    // Callback opcional (tracking) después del envío (ya se respondió rápido en API)
+    await onConfirm?.(merged);
+  toast({ title: "Reserva recibida", description: `Te llegará un correo de confirmación para ${state.selectedDate} ${state.selectedTime} en unos minutos.`, className: "border border-green-500/60 bg-green-50 text-green-800" });
       onOpenChange(false);
       state.reset();
+      setSending(false);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('[BookingModal] Error en handleSubmit', err);
   toast({ title: 'Error', description: 'Hubo un error. Intentá reservar nuevamente.', variant: 'destructive' });
+      setSending(false);
     }
   };
 
@@ -122,13 +128,12 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         <div className="flex justify-end space-x-4 mt-8">
   <Button variant="outline" onClick={() => { onOpenChange(false); state.reset(); }} className="px-6 py-3">Cancelar</Button>
           <Button
-            disabled={!state.selectedDate || !state.selectedTime}
-            onClick={() => {
-              formRef.current?.requestSubmit();
-            }}
-            className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 disabled:opacity-50"
+            disabled={!state.selectedDate || !state.selectedTime || sending}
+            onClick={() => { if (!sending) formRef.current?.requestSubmit(); }}
+            className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 disabled:opacity-50 flex items-center gap-2"
           >
-            Confirmar Reserva
+            {sending && <Loader2 className="w-4 h-4 animate-spin" />}
+            {sending ? 'Enviando...' : 'Confirmar Reserva'}
           </Button>
         </div>
       </div>

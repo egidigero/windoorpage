@@ -66,7 +66,8 @@ export function useBookingState(options: BookingStateOptions = {}) {
     "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
   ];
 
-  const availableTimes = ["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00"];
+  // Horarios laborales: bloques de 1h desde 10 a 19 (último turno inicia 18:00)
+  const availableTimes = ["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
 
   const prevMonth = useCallback(() => {
     setCurrentMonth(m => new Date(m.getFullYear(), m.getMonth() - 1));

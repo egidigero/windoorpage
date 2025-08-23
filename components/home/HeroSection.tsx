@@ -14,7 +14,10 @@ export default function HeroSection() {
         alt="Showroom de Windoor con ventanales de PVC"
         fill
         priority
+        fetchPriority="high"
         sizes="100vw"
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPU1dX7DwAFpwJ+o6a7lwAAAABJRU5ErkJggg=="
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/40" />
