@@ -48,7 +48,19 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         });
         if (!res.ok) {
           let msg = 'Hubo un error. Intentá reservar nuevamente.';
-          try { const j = await res.json(); if (j?.error === 'EMAIL_CONNECTION_FAILED') msg = 'No se pudo conectar al servicio de correo. Intentá más tarde.'; } catch {}
+          try {
+            const j = await res.json();
+            switch (j?.error) {
+              case 'EMAIL_CONNECTION_FAILED':
+                msg = 'No se pudo conectar al servicio de correo. Intentá más tarde.'; break;
+              case 'MISSING_SMTP_CONFIG':
+                msg = 'Configuración de correo incompleta. Intentalo más tarde.'; break;
+              case 'EMAIL_SEND_FAILED':
+                msg = 'No se pudo enviar el correo. Reintentá.'; break;
+              case 'EMAIL_SEND_FAILED_USER':
+                msg = 'Reserva recibida pero el email de confirmación falló.'; break;
+            }
+          } catch {}
           toast({ title: 'Error', description: msg, variant: 'destructive' });
           return;
         }

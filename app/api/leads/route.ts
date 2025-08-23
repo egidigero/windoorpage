@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// If RESEND_API_KEY is present we can optionally use Resend HTTP API instead of raw SMTP.
+const USE_RESEND = !!process.env.RESEND_API_KEY;
+
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -57,20 +60,31 @@ export async function POST(req: NextRequest) {
     const preferredDate = body.preferredDate || '';
     const preferredTime = body.preferredTime || '';
 
-    const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
-  const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || (secure ? 465 : 587)),
-      secure,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    });
+    // If using SMTP we need these vars
+    const requiredSmtp = ['SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASS'];
+    const missing = !USE_RESEND ? requiredSmtp.filter(v => !process.env[v]) : [];
+    if (missing.length) {
+      return NextResponse.json({ ok: false, error: 'MISSING_SMTP_CONFIG', details: missing }, { status: 500 });
+    }
 
-    // Verificar conexión (opcional, rápido)
-    try {
-      await transporter.verify();
-    } catch (verErr) {
-      console.error('SMTP verify failed', verErr);
-      return NextResponse.json({ ok: false, error: 'EMAIL_CONNECTION_FAILED' }, { status: 502 });
+  // Use inferred transport type to avoid issues if types not fully available.
+  let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
+    if (!USE_RESEND) {
+      const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || (secure ? 465 : 587)),
+        secure,
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      });
+      if (process.env.SMTP_SKIP_VERIFY !== 'true') {
+        try {
+          await transporter.verify();
+        } catch (verErr) {
+          console.error('SMTP verify failed', verErr);
+          return NextResponse.json({ ok: false, error: 'EMAIL_CONNECTION_FAILED' }, { status: 502 });
+        }
+      }
     }
 
     const notify = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
@@ -81,9 +95,42 @@ export async function POST(req: NextRequest) {
     const adminHtml = `<h2>Nueva reserva / consulta</h2><ul>${Object.entries(body).map(([k,v])=>`<li><b>${k}:</b> ${v}</li>`).join('')}</ul>`;
     const userHtml = `<p>Hola ${body.name},</p><p>Recibimos tu consulta${preferredDate?` y tu solicitud de visita para <b>${preferredDate} ${preferredTime}hs</b>`:''}. Te contactaremos pronto.</p><p>Windoor.</p>`;
 
-    await transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
-    if (body.email) {
-      await transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined });
+    if (USE_RESEND) {
+      const apiKey = process.env.RESEND_API_KEY as string;
+      const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
+      const send = async (payload: any) => fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      // Admin email
+      const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+      if (!adminRes.ok) {
+        console.error('Resend admin send failed', await adminRes.text());
+        return NextResponse.json({ ok: false, error: 'EMAIL_SEND_FAILED' }, { status: 502 });
+      }
+      if (body.email) {
+        const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
+        if (icsAttachment) {
+          userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
+        }
+        const userRes = await send(userPayload);
+        if (!userRes.ok) {
+          console.error('Resend user send failed', await userRes.text());
+          // Still return ok true? decide to signal partial failure
+          return NextResponse.json({ ok: false, error: 'EMAIL_SEND_FAILED_USER' }, { status: 502 });
+        }
+      }
+    } else if (transporter) {
+      try {
+        await transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+        if (body.email) {
+          await transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined });
+        }
+      } catch (sendErr) {
+        console.error('SMTP send failed', sendErr);
+        return NextResponse.json({ ok: false, error: 'EMAIL_SEND_FAILED' }, { status: 502 });
+      }
     }
 
     return NextResponse.json({ ok: true });
