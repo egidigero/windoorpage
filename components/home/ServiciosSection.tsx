@@ -32,7 +32,7 @@ export default function ServiciosSection() {
                   transformamos en creaciones que superan expectativas.
                 </p>
                 <p>
-                  Nos especializamos en aberturas de PVC y aluminio, placares, vestidores, baños y puertas de interior a
+                  Nos especializamos en aberturas y diseño integral de interiores: placares, vestidores, baños y puertas de interior a
                   medida, combinando técnicas artesanales con tecnología de vanguardia para lograr acabados impecables.
                 </p>
               </div>

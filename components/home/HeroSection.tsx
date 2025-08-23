@@ -33,7 +33,7 @@ export default function HeroSection() {
 
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Conoce nuestra línea de productos premium para equipar tu hogar: aberturas de PVC y aluminio, placares,
+            Conoce nuestra línea de productos premium: aberturas y soluciones de interiores (placares, vestidores, baños, puertas),
             vestidores, baños y puertas de interior a medida.
           </p>
 

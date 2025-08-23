@@ -13,9 +13,9 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  title: "Windoor - Aberturas de Aluminio y Interiores Personalizados | Nordelta",
+  title: "Windoor - Aberturas y Interiores Personalizados | Nordelta",
   description:
-    "Especialistas en aberturas de PVC, vestidores, baños y puertas de interior. Showroom en Remeros Plaza, Nordelta. Calidad premium y asesoramiento personalizado.",
+    "Especialistas en aberturas y soluciones de interiores: vestidores, baños, placares y puertas a medida. Showroom en Remeros Plaza, Nordelta. Calidad premium y asesoramiento personalizado.",
   keywords:
     "aberturas PVC, vestidores, baños, puertas interior, Nordelta, Buenos Aires, aluminio, interiores personalizados, placares, showroom",
   authors: [{ name: "Windoor" }],
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     locale: "es_AR",
     url: "https://windoor.com.ar",
     siteName: "Windoor",
-    title: "Windoor - Aberturas de Aluminio y Interiores Personalizados",
+  title: "Windoor - Aberturas y Interiores Personalizados",
     description:
-      "Especialistas en aberturas de PVC, vestidores, baños y puertas de interior. Showroom en Remeros Plaza, Nordelta.",
+      "Especialistas en aberturas y diseño de interiores: vestidores, baños, placares y puertas a medida en Nordelta.",
     images: [
       {
         url: "/images/windoor-hero-bg.jpeg",
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Windoor - Aberturas de Aluminio y Interiores Personalizados",
-    description: "Especialistas en aberturas de PVC, vestidores, baños y puertas de interior. Showroom en Nordelta.",
+  title: "Windoor - Aberturas y Interiores Personalizados",
+  description: "Especialistas en aberturas y soluciones de interiores: vestidores, baños, placares y puertas en Nordelta.",
     images: ["/images/windoor-hero-bg.jpeg"],
   },
   alternates: {
@@ -142,7 +142,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} ${montserrat.variable}`}>
         <BookingProvider>
-          {children}
+          <main id="main-content" role="main" className="min-h-screen focus:outline-none">
+            {children}
+          </main>
         </BookingProvider>
         <Toaster />
       </body>

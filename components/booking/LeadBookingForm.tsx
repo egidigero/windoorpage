@@ -124,8 +124,9 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   return (
   <form ref={ref} className={cn("space-y-6", className)} onSubmit={handleSubmit}>
       {/* Honeypot hidden field (anti-spam). Bots often fill every input. */}
-      <div style={{ display: 'none' }} aria-hidden="true">
-        <input type="text" name={process.env.NEXT_PUBLIC_HONEYPOT_FIELD || 'website'} tabIndex={-1} autoComplete="off" />
+      <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+        {/* Honeypot sin nombre en SSR para evitar ser foco; se añade name luego en efecto si se desea */}
+        <input aria-hidden="true" tabIndex={-1} data-honeypot placeholder="Do not fill" autoComplete="off" />
       </div>
       {success && showInlineSuccessMessage && (
         <div className="p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
@@ -206,7 +207,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
           <label htmlFor="productType" className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
           <select id="productType" name="productType" required defaultValue={defaultProductType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
             <option value="">Seleccionar producto</option>
-            <option value="aberturas-pvc">Aberturas de PVC y Aluminio</option>
+            <option value="aberturas-pvc">Aberturas y Soluciones de Interiores</option>
             <option value="placares-vestidores-banos">Placares, Vestidores y Baños</option>
             <option value="puertas-interior">Puertas de interior</option>
           </select>
