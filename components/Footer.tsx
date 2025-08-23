@@ -51,7 +51,7 @@ export default function Footer({
             <div className="md:col-span-2">
               <h3 className="text-2xl font-bold mb-4">WINDOOR</h3>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                Especialistas en aberturas de PVC y aluminio, placares,vestidores, baños y puertas de interior a medida.
+                Especialistas en aberturas y soluciones de interiores: placares, vestidores, baños y puertas de interior a medida.
                 Transformamos espacios con la más alta calidad y diseño excepcional.
               </p>
               <div className="flex space-x-4">

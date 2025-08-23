@@ -32,7 +32,7 @@ export default function ServiciosSection() {
                   transformamos en creaciones que superan expectativas.
                 </p>
                 <p>
-                  Nos especializamos en aberturas de PVC y aluminio, placares, vestidores, baños y puertas de interior a
+                  Nos especializamos en aberturas y diseño integral de interiores: placares, vestidores, baños y puertas de interior a
                   medida, combinando técnicas artesanales con tecnología de vanguardia para lograr acabados impecables.
                 </p>
               </div>
@@ -73,14 +73,16 @@ export default function ServiciosSection() {
             {/* Right Content - Image */}
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <Image
-                  src="/images/windoor-bathroom.jpeg"
-                  alt="Interiores personalizados con acabados de máxima calidad"
-                  width={1200}
-                  height={600}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="w-full h-[600px] object-cover rounded-2xl shadow-xl"
-                />
+                <div className="relative w-full h-[600px] rounded-2xl shadow-xl overflow-hidden">
+                  <Image
+                    src="/images/windoor-bathroom.jpeg"
+                    alt="Interiores personalizados con acabados de máxima calidad"
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
                 <div className="absolute bottom-6 left-6 right-6">
                   <p className="text-white text-sm font-light bg-black/50 backdrop-blur-sm rounded-lg px-4 py-2">
                     Interiores personalizados con acabados de máxima calidad

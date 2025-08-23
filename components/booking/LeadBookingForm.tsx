@@ -107,8 +107,8 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
           return;
         }
       }
-      setSuccess(true);
-      toast({ title: "Consulta enviada", description: "Nos pondremos en contacto a la brevedad." });
+    setSuccess(true);
+  toast({ title: "Solicitud recibida", description: "Te llegará un correo de confirmación en unos minutos. Podés seguir navegando.", /* success style via custom className */ className: "border border-green-500/60 bg-green-50 text-green-800" });
       if (autoReset && mountedRef.current && formEl && document.contains(formEl)) {
         try { formEl.reset(); } catch {}
       }
@@ -124,29 +124,31 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   return (
   <form ref={ref} className={cn("space-y-6", className)} onSubmit={handleSubmit}>
       {/* Honeypot hidden field (anti-spam). Bots often fill every input. */}
-      <div style={{ display: 'none' }} aria-hidden="true">
-        <input type="text" name={process.env.NEXT_PUBLIC_HONEYPOT_FIELD || 'website'} tabIndex={-1} autoComplete="off" />
+      <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+        {/* Honeypot sin nombre en SSR para evitar ser foco; se añade name luego en efecto si se desea */}
+        <input aria-hidden="true" tabIndex={-1} data-honeypot placeholder="Do not fill" autoComplete="off" />
       </div>
       {success && showInlineSuccessMessage && (
         <div className="p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
-          <p className="font-medium mb-1">¡Consulta enviada correctamente!</p>
-          <p>Te contactaremos a la brevedad. Podés enviar otra consulta si lo necesitás.</p>
+          <p className="font-medium mb-1">¡Solicitud recibida!</p>
+          <p>Te llegará un correo de confirmación con los detalles en unos minutos. Podés seguir navegando o enviar otra.</p>
         </div>
       )}
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
-          <input name="name" required type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu nombre completo" />
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
+          <input id="name" name="name" required type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu nombre completo" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
-          <input name="phone" required pattern="[0-9]+" type="tel" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu número de teléfono" />
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
+          {/* Simplified pattern to avoid escaping issues in some browsers causing invalid regex warnings */}
+          <input id="phone" name="phone" required pattern="[0-9+()\s-]{6,}" type="tel" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu número de teléfono" />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-        <input name="email" required type="email" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="tu@email.com" />
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+        <input id="email" name="email" required type="email" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="tu@email.com" />
       </div>
 
       {withInlinePreferredDateTime && !controlledDate && !controlledTime && (
@@ -164,14 +166,15 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Fecha preferida</label>
-              <input name="preferredDate" required type="date" min={new Date().toISOString().split('T')[0]} max={maxDate ? maxDate.toISOString().split('T')[0] : undefined} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" />
+              <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700 mb-2">Fecha preferida</label>
+              {/* Use state for 'today' to avoid SSR/client mismatch with timezone differences */}
+              <input id="preferredDate" name="preferredDate" required type="date" min={(typeof window !== 'undefined') ? new Date().toISOString().split('T')[0] : undefined} max={maxDate ? maxDate.toISOString().split('T')[0] : undefined} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Hora preferida</label>
-              <select name="preferredTime" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
+              <label htmlFor="preferredTime" className="block text-sm font-medium text-gray-700 mb-2">Hora preferida</label>
+              <select id="preferredTime" name="preferredTime" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
                 <option value="">Seleccionar hora *</option>
-                {["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00"].map(t => <option key={t} value={t}>{t}</option>)}
+                {["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"].map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
           </div>
@@ -181,30 +184,30 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       {(controlledDate || controlledTime) && (
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Fecha seleccionada</label>
-            <input value={controlledDate || ""} readOnly={readOnlyControlledDateTime} name="preferredDate" type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50" />
+            <label htmlFor="preferredDateDisplay" className="block text-sm font-medium text-gray-700 mb-2">Fecha seleccionada</label>
+            <input id="preferredDateDisplay" value={controlledDate || ""} readOnly={readOnlyControlledDateTime} name="preferredDate" type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Hora seleccionada</label>
-            <input value={controlledTime || ""} readOnly={readOnlyControlledDateTime} name="preferredTime" type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50" />
+            <label htmlFor="preferredTimeDisplay" className="block text-sm font-medium text-gray-700 mb-2">Hora seleccionada</label>
+            <input id="preferredTimeDisplay" value={controlledTime || ""} readOnly={readOnlyControlledDateTime} name="preferredTime" type="text" className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50" />
           </div>
         </div>
       )}
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de cliente *</label>
-          <select name="clientType" required defaultValue={defaultClientType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
+          <label htmlFor="clientType" className="block text-sm font-medium text-gray-700 mb-2">Tipo de cliente *</label>
+          <select id="clientType" name="clientType" required defaultValue={defaultClientType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
             <option value="">Seleccionar tipo</option>
             <option value="particular">Particular</option>
             <option value="profesional">Profesional</option>
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
-          <select name="productType" required defaultValue={defaultProductType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
+          <label htmlFor="productType" className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
+          <select id="productType" name="productType" required defaultValue={defaultProductType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
             <option value="">Seleccionar producto</option>
-            <option value="aberturas-pvc">Aberturas de PVC y Aluminio</option>
+            <option value="aberturas-pvc">Aberturas y Soluciones de Interiores</option>
             <option value="placares-vestidores-banos">Placares, Vestidores y Baños</option>
             <option value="puertas-interior">Puertas de interior</option>
           </select>
@@ -212,14 +215,14 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Mensaje / Medidas / Observaciones</label>
-        <textarea name="message" rows={4} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none" placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle que consideres importante..." />
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Mensaje / Medidas / Observaciones</label>
+        <textarea id="message" name="message" rows={4} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none" placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle que consideres importante..." />
       </div>
 
     {showSubmitButton && !success && (
         <div className="text-center pt-6">
           <Button disabled={submitting || (needInlineCalendar && (!inlineDate || !inlineTime))} type="submit" size="lg" className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:opacity-50">
-            {submitting ? "Enviando..." : submitLabel}
+            {submitting ? "Enviando solicitud..." : submitLabel}
           </Button>
         </div>
       )}

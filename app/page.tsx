@@ -3,13 +3,15 @@
 import { ArrowRight, X } from "lucide-react"
 import Image from "next/image"
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { useScrollPosition } from "@/hooks/use-scroll-position"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import Footer from "@/components/Footer"
 import HeroSection from "@/components/home/HeroSection"
-import ServiciosSection from "@/components/home/ServiciosSection"
-import ContactoSection from "@/components/home/ContactoSection"
+// Lazy (below the fold) sections
+const ServiciosSection = dynamic(() => import("@/components/home/ServiciosSection"), { ssr: true, loading: () => <div className="min-h-[400px] animate-pulse" /> })
+const ContactoSection = dynamic(() => import("@/components/home/ContactoSection"), { ssr: true, loading: () => <div className="min-h-[400px] animate-pulse" /> })
 import Header from "@/components/Header"
 import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
@@ -43,9 +45,11 @@ export default function WindoorHomepage() {
                     <Image
                       src="/images/dcasas-logo.png"
                       alt="D-CASAS"
-                      width={160} // aumentado de 100 a 160
-                      height={32} // aumentado de 20 a 32
-                      className="h-8 w-auto brightness-0 invert" // aumentado de h-5 a h-8
+                      width={160}
+                      height={32}
+                      // Mantener proporción: quitamos sólo cambiar height vía clase fija, usamos style para auto-scale
+                      className="brightness-0 invert"
+                      style={{ height: '2rem', width: 'auto' }}
                     />
                     <div className="text-center">
                       <div className="text-sm font-semibold text-white">Partner</div> {/* aumentado de text-xs a text-sm y font-medium a font-semibold */}
@@ -72,9 +76,10 @@ export default function WindoorHomepage() {
                         <Image
                           src="/images/dcasas-logo.png"
                           alt="D-CASAS"
-                          width={220} // aumentado de 160 a 220
-                          height={44} // aumentado de 32 a 44
-                          className="h-11 w-auto flex-shrink-0 brightness-0 invert mt-1" // aumentado de h-8 a h-11
+                          width={220}
+                          height={44}
+                          className="flex-shrink-0 brightness-0 invert mt-1"
+                          style={{ height: '2.75rem', width: 'auto' }}
                         />
                         <div className="flex-1 min-w-0">
                           <h4 className="font-semibold text-white text-lg mb-2"> {/* aumentado de text-sm a text-lg */}

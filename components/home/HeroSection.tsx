@@ -14,7 +14,10 @@ export default function HeroSection() {
         alt="Showroom de Windoor con ventanales de PVC"
         fill
         priority
+        fetchPriority="high"
         sizes="100vw"
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPU1dX7DwAFpwJ+o6a7lwAAAABJRU5ErkJggg=="
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/40" />
@@ -30,7 +33,7 @@ export default function HeroSection() {
 
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Conoce nuestra línea de productos premium para equipar tu hogar: aberturas de PVC y aluminio, placares,
+            Conoce nuestra línea de productos premium: aberturas y soluciones de interiores (placares, vestidores, baños, puertas),
             vestidores, baños y puertas de interior a medida.
           </p>
 
