@@ -38,7 +38,9 @@ function buildIcs(data: { preferredDate: string; preferredTime: string; name: st
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+  const url = new URL(req.url);
+  const debugFlag = url.searchParams.get('debug') === '1' || process.env.DEBUG_EMAIL_RESPONSE === 'true';
+  const body = await req.json();
 
     // Honeypot check
     const honeypotField = process.env.HONEYPOT_FIELD || 'website';
@@ -73,17 +75,39 @@ export async function POST(req: NextRequest) {
     if (!globalForTransport.__SMTP_TRANSPORT__ && !USE_RESEND) {
       try {
         const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
-        globalForTransport.__SMTP_TRANSPORT__ = nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT || (secure ? 465 : 587)),
-          secure,
-          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-        });
+        const host = process.env.SMTP_HOST;
+        const port = Number(process.env.SMTP_PORT || (secure ? 465 : 587));
+        const requireTLS = (process.env.SMTP_REQUIRE_TLS || 'false').toLowerCase() === 'true';
+        const family = process.env.SMTP_FAMILY === '4' ? 4 : process.env.SMTP_FAMILY === '6' ? 6 : undefined;
+        const debugEnabled = process.env.SMTP_DEBUG === 'true';
+        const baseOptions: any = {
+          host,
+            port,
+            secure,
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+            connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 10000),
+            greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
+            socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
+            requireTLS,
+            logger: debugEnabled,
+            debug: debugEnabled,
+            family,
+        };
+        if (process.env.SMTP_SKIP_VERIFY === 'true') {
+          baseOptions.tls = { rejectUnauthorized: false };
+        }
+        globalForTransport.__SMTP_TRANSPORT__ = nodemailer.createTransport(baseOptions);
         if (process.env.SMTP_SKIP_VERIFY !== 'true') {
           await globalForTransport.__SMTP_TRANSPORT__.verify();
         }
-      } catch (verErr) {
-        console.error('SMTP init/verify failed', verErr);
+      } catch (verErr: any) {
+        console.error('SMTP init/verify failed', {
+          message: verErr?.message,
+          code: verErr?.code,
+          host: process.env.SMTP_HOST,
+          port: process.env.SMTP_PORT,
+          secure: (process.env.SMTP_SECURE || '').toLowerCase() === 'true'
+        });
         return NextResponse.json({ ok: false, error: 'EMAIL_CONNECTION_FAILED' }, { status: 502 });
       }
     }
@@ -97,45 +121,80 @@ export async function POST(req: NextRequest) {
     const adminHtml = `<h2>Nueva reserva / consulta</h2><ul>${Object.entries(body).map(([k,v])=>`<li><b>${k}:</b> ${v}</li>`).join('')}</ul>`;
     const userHtml = `<p>Hola ${body.name},</p><p>Recibimos tu consulta${preferredDate?` y tu solicitud de visita para <b>${preferredDate} ${preferredTime}hs</b>`:''}. Te enviaremos un correo de confirmación en unos minutos.</p><p>Windoor.</p>`;
 
-    // Fire & forget email sending so response is instant for user perceived performance.
-    (async () => {
-      try {
-        if (USE_RESEND) {
-          const apiKey = process.env.RESEND_API_KEY as string;
-          const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
-          const send = async (payload: any) => fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
-          if (!adminRes.ok) {
-            console.error('Resend admin send failed', await adminRes.text());
-          }
-          if (body.email) {
-            const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
-            if (icsAttachment) {
-              userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
+    // If not in debug mode: fire & forget (original behavior)
+    if (!debugFlag) {
+      (async () => {
+        try {
+          if (USE_RESEND) {
+            const apiKey = process.env.RESEND_API_KEY as string;
+            const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
+            const send = async (payload: any) => fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+            if (!adminRes.ok) {
+              console.error('Resend admin send failed', await adminRes.text());
             }
-            const userRes = await send(userPayload);
-            if (!userRes.ok) {
-              console.error('Resend user send failed', await userRes.text());
+            if (body.email) {
+              const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
+              if (icsAttachment) {
+                userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
+              }
+              const userRes = await send(userPayload);
+              if (!userRes.ok) {
+                console.error('Resend user send failed', await userRes.text());
+              }
             }
+          } else if (transporter) {
+            const tasks: Promise<any>[] = [];
+            tasks.push(transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml }));
+            if (body.email) {
+              tasks.push(transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined }));
+            }
+            await Promise.all(tasks);
           }
-        } else if (transporter) {
-          const tasks: Promise<any>[] = [];
-          tasks.push(transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml }));
-          if (body.email) {
-            tasks.push(transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined }));
-          }
-          await Promise.all(tasks);
+        } catch (sendErr) {
+          console.error('Async email send failed', sendErr);
         }
-      } catch (sendErr) {
-        console.error('Async email send failed', sendErr);
-      }
-    })();
+      })();
+      return NextResponse.json({ ok: true, queued: true });
+    }
 
-    return NextResponse.json({ ok: true, queued: true });
+    // Debug mode: perform send synchronously and return status details
+    const debugResult: any = { mode: 'debug', transport: USE_RESEND ? 'resend' : 'smtp' };
+    try {
+      if (USE_RESEND) {
+        const apiKey = process.env.RESEND_API_KEY as string;
+        const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
+        const send = async (payload: any) => fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+        debugResult.admin = { ok: adminRes.ok, status: adminRes.status, text: adminRes.ok ? undefined : await adminRes.text() };
+        if (body.email) {
+          const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
+          if (icsAttachment) userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
+          const userRes = await send(userPayload);
+          debugResult.user = { ok: userRes.ok, status: userRes.status, text: userRes.ok ? undefined : await userRes.text() };
+        }
+      } else if (transporter) {
+        const adminInfo = await transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+        debugResult.admin = { accepted: adminInfo.accepted, rejected: adminInfo.rejected, messageId: adminInfo.messageId };
+        if (body.email) {
+          const userInfo = await transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined });
+          debugResult.user = { accepted: userInfo.accepted, rejected: userInfo.rejected, messageId: userInfo.messageId };
+        }
+      }
+      return NextResponse.json({ ok: true, debug: debugResult });
+    } catch (sendErr: any) {
+      debugResult.error = sendErr?.message || String(sendErr);
+      console.error('Debug email send failed', sendErr);
+      return NextResponse.json({ ok: false, error: 'SEND_FAILED', debug: debugResult }, { status: 500 });
+    }
   } catch (err: any) {
     console.error('Lead API error', err);
   return NextResponse.json({ ok: false, error: 'SERVER_ERROR' }, { status: 500 });
