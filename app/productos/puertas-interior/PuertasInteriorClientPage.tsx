@@ -8,10 +8,10 @@ import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import ContactForm from "@/components/ContactForm"
+import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function PuertasInteriorClientPage() {
-  const [showReservationModal, setShowReservationModal] = useState(false)
+  const [showReservationModal] = useState(false)
 
   const projectImages = [
     {
@@ -166,7 +166,7 @@ export default function PuertasInteriorClientPage() {
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-              <ContactForm />
+              <LeadBookingForm defaultProductType="puertas-interior" />
             </div>
           </div>
         </div>

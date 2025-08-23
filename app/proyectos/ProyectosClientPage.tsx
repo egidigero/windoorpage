@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import ContactForm from "@/components/ContactForm"
+import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function ProyectosClientPage() {
   const [activeFilter, setActiveFilter] = useState("Todas")
@@ -371,7 +371,7 @@ export default function ProyectosClientPage() {
               </div>
 
               <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                <ContactForm />
+                <LeadBookingForm />
               </div>
             </div>
           </div>

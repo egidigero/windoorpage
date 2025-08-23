@@ -8,10 +8,10 @@ import { useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Thermometer, Wrench, Hammer} from "lucide-react"
-import ContactForm from "@/components/ContactForm"
+import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function AberturasPVCClientPage() {
-  const [showReservationModal, setShowReservationModal] = useState(false)
+  const [showReservationModal] = useState(false) // placeholder if future modal needed
 
   const projectImages = [
     {
@@ -162,7 +162,7 @@ export default function AberturasPVCClientPage() {
             </div>
 
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-              <ContactForm />
+              <LeadBookingForm defaultProductType="aberturas-pvc" />
             </div>
           </div>
         </div>

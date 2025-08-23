@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react"
-import ContactForm from "@/components/ContactForm"
+import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 import React from "react"
 
 interface ContactoSectionProps {
@@ -125,7 +125,7 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
               </div>
 
               <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                <ContactForm />
+                <LeadBookingForm />
               </div>
             </div>
           </div>
