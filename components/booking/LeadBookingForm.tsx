@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useState, forwardRef } from "react";
+import { useState, forwardRef, useRef, useEffect } from "react";
 
 export interface LeadBookingFormProps {
   className?: string;
@@ -17,6 +17,7 @@ export interface LeadBookingFormProps {
   readOnlyControlledDateTime?: boolean; // show the controlled values but not editable
   onSubmit?: (payload: Record<string, any>) => Promise<void> | void;
   showInlineSuccessMessage?: boolean;
+  autoReset?: boolean;
 }
 
 export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>(function LeadBookingFormInternal({
@@ -31,16 +32,20 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   readOnlyControlledDateTime = true,
   onSubmit,
   showInlineSuccessMessage = true,
+  autoReset = true,
 }, ref) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const mountedRef = useRef(true);
+  useEffect(() => () => { mountedRef.current = false; }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    const formData = new FormData(e.currentTarget);
+  const formEl = e.currentTarget;
+  const formData = new FormData(formEl);
     const data = Object.fromEntries(formData.entries());
 
     // Merge controlled date/time if provided
@@ -51,7 +56,9 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       await onSubmit?.(data);
       setSuccess(true);
       toast({ title: "Consulta enviada", description: "Nos pondremos en contacto a la brevedad." });
-      e.currentTarget.reset();
+      if (autoReset && mountedRef.current && formEl && document.contains(formEl)) {
+        try { formEl.reset(); } catch {}
+      }
     } catch (err) {
       console.error(err);
       toast({ title: "Error", description: "Ocurrió un problema al enviar. Intentalo nuevamente.", variant: "destructive" as any });
