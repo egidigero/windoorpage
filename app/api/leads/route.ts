@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import net from 'net';
 
 // If RESEND_API_KEY is present we can optionally use Resend HTTP API instead of raw SMTP.
 const USE_RESEND = !!process.env.RESEND_API_KEY;
@@ -40,7 +41,44 @@ export async function POST(req: NextRequest) {
   try {
   const url = new URL(req.url);
   const debugFlag = url.searchParams.get('debug') === '1' || process.env.DEBUG_EMAIL_RESPONSE === 'true';
-  const body = await req.json();
+  const pingFlag = url.searchParams.get('ping') === '1';
+  const body = await req.json().catch(()=>({}));
+
+    // Raw connectivity ping (no email send). Call: /api/leads?ping=1
+    if (pingFlag) {
+      const secure = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+      const host = process.env.SMTP_HOST;
+      const port = Number(process.env.SMTP_PORT || (secure ? 465 : 587));
+      if (!host) return NextResponse.json({ ok:false, error:'MISSING_SMTP_HOST' }, { status:400 });
+      const start = Date.now();
+      const timeoutMs = Number(process.env.SMTP_CONNECTION_TIMEOUT || 10000);
+      const result: any = { host, port, timeoutMs };
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const socket = net.createConnection({ host, port, timeout: timeoutMs }, () => {
+            result.connectedMs = Date.now() - start;
+          });
+          socket.once('data', (d) => {
+            result.banner = d.toString().slice(0,120);
+            socket.destroy();
+            resolve();
+          });
+          socket.on('timeout', () => {
+            result.timeoutMsActual = Date.now() - start;
+            socket.destroy();
+            reject(new Error('TIMEOUT_WAITING_BANNER'));
+          });
+          socket.on('error', (err) => {
+            result.error = err.message;
+            reject(err);
+          });
+        });
+        return NextResponse.json({ ok:true, ping: result });
+      } catch (e:any) {
+        result.failed = true;
+        return NextResponse.json({ ok:false, ping: result }, { status: 504 });
+      }
+    }
 
     // Honeypot check
     const honeypotField = process.env.HONEYPOT_FIELD || 'website';
@@ -121,42 +159,79 @@ export async function POST(req: NextRequest) {
     const adminHtml = `<h2>Nueva reserva / consulta</h2><ul>${Object.entries(body).map(([k,v])=>`<li><b>${k}:</b> ${v}</li>`).join('')}</ul>`;
     const userHtml = `<p>Hola ${body.name},</p><p>Recibimos tu consulta${preferredDate?` y tu solicitud de visita para <b>${preferredDate} ${preferredTime}hs</b>`:''}. Te enviaremos un correo de confirmación en unos minutos.</p><p>Windoor.</p>`;
 
+    // Unified send with fallback order. Configure EMAIL_FALLBACK="smtp,resend" or "resend,smtp".
+    const fallbackOrder = (process.env.EMAIL_FALLBACK || (USE_RESEND ? 'resend,smtp' : 'smtp,resend'))
+      .split(',')
+      .map(s => s.trim().toLowerCase())
+      .filter(Boolean);
+
+    async function sendViaSmtp() {
+      if (!transporter) throw new Error('SMTP_NOT_AVAILABLE');
+      const tasks: Promise<any>[] = [];
+      tasks.push(transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml }));
+      if (body.email) {
+        tasks.push(transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined }));
+      }
+      const [adminInfo, userInfo] = await Promise.all(tasks);
+      return {
+        method: 'smtp',
+        admin: adminInfo ? { accepted: adminInfo.accepted, rejected: adminInfo.rejected, id: adminInfo.messageId } : undefined,
+        user: userInfo ? { accepted: userInfo.accepted, rejected: userInfo.rejected, id: userInfo.messageId } : undefined
+      };
+    }
+
+    async function sendViaResend() {
+      if (!process.env.RESEND_API_KEY) throw new Error('RESEND_NOT_CONFIGURED');
+      const apiKey = process.env.RESEND_API_KEY as string;
+      const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
+      const send = async (payload: any) => fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
+      const result: any = { method: 'resend', admin: { ok: adminRes.ok, status: adminRes.status } };
+      if (!adminRes.ok) result.admin.text = await adminRes.text();
+      if (body.email) {
+        const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
+        if (icsAttachment) userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
+        const userRes = await send(userPayload);
+        result.user = { ok: userRes.ok, status: userRes.status };
+        if (!userRes.ok) result.user.text = await userRes.text();
+      }
+      if (!result.admin.ok || (result.user && !result.user.ok)) {
+        throw Object.assign(new Error('RESEND_SEND_FAILED'), { detail: result });
+      }
+      return result;
+    }
+
+    async function sendWithFallback(debug = false) {
+      const attempts: any[] = [];
+      for (const method of fallbackOrder) {
+        try {
+          let r;
+          if (method === 'smtp') r = await sendViaSmtp();
+          else if (method === 'resend') r = await sendViaResend();
+          else continue;
+          attempts.push({ method, ok: true, result: r });
+          return debug ? { attempts, final: r } : r;
+        } catch (e: any) {
+          attempts.push({ method, ok: false, error: e?.message || String(e), detail: (e as any)?.detail });
+        }
+      }
+      const err = new Error('ALL_METHODS_FAILED');
+      (err as any).attempts = attempts;
+      if (debug) return { attempts, finalError: 'ALL_METHODS_FAILED' };
+      throw err;
+    }
+
     // If not in debug mode: fire & forget (original behavior)
     if (!debugFlag) {
       (async () => {
         try {
-          if (USE_RESEND) {
-            const apiKey = process.env.RESEND_API_KEY as string;
-            const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
-            const send = async (payload: any) => fetch('https://api.resend.com/emails', {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
-            if (!adminRes.ok) {
-              console.error('Resend admin send failed', await adminRes.text());
-            }
-            if (body.email) {
-              const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
-              if (icsAttachment) {
-                userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
-              }
-              const userRes = await send(userPayload);
-              if (!userRes.ok) {
-                console.error('Resend user send failed', await userRes.text());
-              }
-            }
-          } else if (transporter) {
-            const tasks: Promise<any>[] = [];
-            tasks.push(transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml }));
-            if (body.email) {
-              tasks.push(transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined }));
-            }
-            await Promise.all(tasks);
-          }
-        } catch (sendErr) {
-          console.error('Async email send failed', sendErr);
+          await sendWithFallback(false);
+        } catch (sendErr: any) {
+          console.error('Async email send failed', sendErr?.message || sendErr, sendErr?.attempts || '');
         }
       })();
       return NextResponse.json({ ok: true, queued: true });
@@ -165,35 +240,11 @@ export async function POST(req: NextRequest) {
     // Debug mode: perform send synchronously and return status details
     const debugResult: any = { mode: 'debug', transport: USE_RESEND ? 'resend' : 'smtp' };
     try {
-      if (USE_RESEND) {
-        const apiKey = process.env.RESEND_API_KEY as string;
-        const icsAttachment = ics ? Buffer.from(ics).toString('base64') : null;
-        const send = async (payload: any) => fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const adminRes = await send({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
-        debugResult.admin = { ok: adminRes.ok, status: adminRes.status, text: adminRes.ok ? undefined : await adminRes.text() };
-        if (body.email) {
-          const userPayload: any = { from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml };
-          if (icsAttachment) userPayload.attachments = [{ filename: 'reserva.ics', content: icsAttachment, type: 'text/calendar' }];
-          const userRes = await send(userPayload);
-          debugResult.user = { ok: userRes.ok, status: userRes.status, text: userRes.ok ? undefined : await userRes.text() };
-        }
-      } else if (transporter) {
-        const adminInfo = await transporter.sendMail({ from, to: notify, subject: 'Nueva reserva / consulta Windoor', html: adminHtml });
-        debugResult.admin = { accepted: adminInfo.accepted, rejected: adminInfo.rejected, messageId: adminInfo.messageId };
-        if (body.email) {
-          const userInfo = await transporter.sendMail({ from, to: body.email, subject: 'Confirmación de tu solicitud - Windoor', html: userHtml, icalEvent: ics ? { filename: 'reserva.ics', method: 'REQUEST', content: ics } : undefined });
-          debugResult.user = { accepted: userInfo.accepted, rejected: userInfo.rejected, messageId: userInfo.messageId };
-        }
-      }
-      return NextResponse.json({ ok: true, debug: debugResult });
+      const res = await sendWithFallback(true);
+      return NextResponse.json({ ok: true, debug: { mode: 'debug', ...res } });
     } catch (sendErr: any) {
       debugResult.error = sendErr?.message || String(sendErr);
-      console.error('Debug email send failed', sendErr);
-      return NextResponse.json({ ok: false, error: 'SEND_FAILED', debug: debugResult }, { status: 500 });
+      return NextResponse.json({ ok: false, error: 'SEND_FAILED', debug: { mode: 'debug', error: debugResult.error, attempts: sendErr?.attempts } }, { status: 500 });
     }
   } catch (err: any) {
     console.error('Lead API error', err);
