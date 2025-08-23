@@ -10,6 +10,7 @@ interface ContactoSectionProps {
 }
 
 export default function ContactoSection({ onShowReservation }: ContactoSectionProps) {
+  const maxDate = (() => { const d = new Date(); d.setMonth(d.getMonth() + 1); return d; })();
   return (
     <section id="contacto" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
@@ -125,7 +126,7 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
               </div>
 
               <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                <LeadBookingForm />
+                <LeadBookingForm maxDate={maxDate} />
               </div>
             </div>
           </div>

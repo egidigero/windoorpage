@@ -18,6 +18,7 @@ export interface LeadBookingFormProps {
   onSubmit?: (payload: Record<string, any>) => Promise<void> | void;
   showInlineSuccessMessage?: boolean;
   autoReset?: boolean;
+  maxDate?: Date; // para validar en modo inline
 }
 
 export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>(function LeadBookingFormInternal({
@@ -33,6 +34,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   onSubmit,
   showInlineSuccessMessage = true,
   autoReset = true,
+  maxDate,
 }, ref) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
@@ -92,16 +94,16 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
         <input name="email" required type="email" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="tu@email.com" />
       </div>
 
-      {withInlinePreferredDateTime && !controlledDate && !controlledTime && (
+  {withInlinePreferredDateTime && !controlledDate && !controlledTime && (
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Fecha preferida</label>
-            <input name="preferredDate" type="date" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" />
+    <input name="preferredDate" required type="date" min={new Date().toISOString().split('T')[0]} max={maxDate ? maxDate.toISOString().split('T')[0] : undefined} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Hora preferida</label>
-            <select name="preferredTime" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
-              <option value="">Seleccionar hora</option>
+    <select name="preferredTime" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
+      <option value="">Seleccionar hora *</option>
               {["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00"].map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>

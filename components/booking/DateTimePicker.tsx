@@ -14,7 +14,8 @@ export interface DateTimePickerProps {
 }
 
 function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelected, disabled }: DateTimePickerProps) {
-  const { calendarDays, monthNames, currentMonth, prevMonth, nextMonth, selectedDate, setSelectedDate, selectedTime, setSelectedTime, availableTimes } = state;
+  const { calendarDays, monthNames, currentMonth, prevMonth, nextMonth, selectedDate, setSelectedDate, selectedTime, setSelectedTime, availableTimes, maxDate } = state as any;
+  const atMaxMonth = currentMonth.getFullYear() === maxDate.getFullYear() && currentMonth.getMonth() === maxDate.getMonth();
 
   return (
     <div className={cn("grid md:grid-cols-2 gap-8", className)}>
@@ -28,7 +29,7 @@ function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelec
             <span className="text-sm font-medium min-w-[120px] text-center">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </span>
-            <button type="button" onClick={nextMonth} className="p-1 hover:bg-gray-100 rounded transition-colors" aria-label="Mes siguiente">
+            <button type="button" disabled={atMaxMonth} onClick={nextMonth} className="p-1 hover:bg-gray-100 disabled:opacity-30 rounded transition-colors" aria-label="Mes siguiente">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -41,8 +42,8 @@ function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelec
         </div>
 
         <div className="grid grid-cols-7 gap-1">
-          {calendarDays.map((day, i) => {
-            const disabledDay = disabled || day.isPast || day.isWeekend || !day.isCurrentMonth;
+          {calendarDays.map((day: any, i: number) => {
+            const disabledDay = disabled || day.isPast || day.isWeekend || !day.isCurrentMonth || day.isBeyondLimit;
             return (
               <button key={i} type="button" disabled={disabledDay} onClick={() => {
                 if (disabledDay) return;
@@ -56,7 +57,7 @@ function DateTimePickerComponent({ state, className, onDateSelected, onTimeSelec
       <div>
         <h4 className="text-lg font-medium text-gray-900 mb-4">Seleccionar Horario</h4>
         <div className="grid grid-cols-2 gap-2">
-          {availableTimes.map(time => {
+          {availableTimes.map((time: string) => {
             const disabledTime = disabled || !selectedDate;
             return (
               <button key={time} type="button" disabled={disabledTime} onClick={() => {
