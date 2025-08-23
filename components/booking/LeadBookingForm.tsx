@@ -16,6 +16,7 @@ export interface LeadBookingFormProps {
   controlledTime?: string;
   readOnlyControlledDateTime?: boolean; // show the controlled values but not editable
   onSubmit?: (payload: Record<string, any>) => Promise<void> | void;
+  showInlineSuccessMessage?: boolean;
 }
 
 export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>(function LeadBookingFormInternal({
@@ -29,9 +30,11 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
   controlledTime,
   readOnlyControlledDateTime = true,
   onSubmit,
+  showInlineSuccessMessage = true,
 }, ref) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,18 +49,13 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
 
     try {
       await onSubmit?.(data);
-      toast({
-        title: "Consulta enviada",
-        description: "Nos pondremos en contacto a la brevedad.",
-      });
+      setSuccess(true);
+      toast({ title: "Consulta enviada", description: "Nos pondremos en contacto a la brevedad." });
       e.currentTarget.reset();
     } catch (err) {
       console.error(err);
-      toast({
-        title: "Error",
-        description: "Ocurrió un problema al enviar. Intentalo nuevamente.",
-        variant: "destructive" as any,
-      });
+      toast({ title: "Error", description: "Ocurrió un problema al enviar. Intentalo nuevamente.", variant: "destructive" as any });
+      setSuccess(false);
     } finally {
       setSubmitting(false);
     }
@@ -65,6 +63,12 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
 
   return (
   <form ref={ref} className={cn("space-y-6", className)} onSubmit={handleSubmit}>
+      {success && showInlineSuccessMessage && (
+        <div className="p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
+          <p className="font-medium mb-1">¡Consulta enviada correctamente!</p>
+          <p>Te contactaremos a la brevedad. Podés enviar otra consulta si lo necesitás.</p>
+        </div>
+      )}
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
@@ -135,11 +139,16 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
         <textarea name="message" rows={4} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent resize-none" placeholder="Contanos sobre tu proyecto, medidas aproximadas, o cualquier detalle que consideres importante..." />
       </div>
 
-      {showSubmitButton && (
+      {showSubmitButton && !success && (
         <div className="text-center pt-6">
           <Button disabled={submitting} type="submit" size="lg" className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-12 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:opacity-50">
             {submitting ? "Enviando..." : submitLabel}
           </Button>
+        </div>
+      )}
+      {showSubmitButton && success && (
+        <div className="text-center pt-4">
+          <Button type="button" variant="outline" onClick={() => setSuccess(false)} className="px-8">Enviar otra</Button>
         </div>
       )}
     </form>
