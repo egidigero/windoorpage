@@ -204,7 +204,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
           <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de producto *</label>
           <select name="productType" required defaultValue={defaultProductType} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent">
             <option value="">Seleccionar producto</option>
-            <option value="aberturas-pvc">Aberturas de PVC</option>
+            <option value="aberturas-pvc">Aberturas de PVC y Aluminio</option>
             <option value="placares-vestidores-banos">Placares, Vestidores y Baños</option>
             <option value="puertas-interior">Puertas de interior</option>
           </select>
