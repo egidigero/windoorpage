@@ -126,7 +126,7 @@ export default function ContactoSection({ onShowReservation }: ContactoSectionPr
               </div>
 
               <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-lg">
-                <LeadBookingForm maxDate={maxDate} />
+                <LeadBookingForm maxDate={maxDate} useCalendarInline />
               </div>
             </div>
           </div>
