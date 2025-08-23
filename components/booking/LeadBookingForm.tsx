@@ -61,7 +61,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
       }
     } catch (err) {
       console.error(err);
-      toast({ title: "Error", description: "Ocurrió un problema al enviar. Intentalo nuevamente.", variant: "destructive" as any });
+  toast({ title: "Error", description: "Ocurrió un problema al enviar. Intentalo nuevamente.", variant: "destructive" });
       setSuccess(false);
     } finally {
       setSubmitting(false);

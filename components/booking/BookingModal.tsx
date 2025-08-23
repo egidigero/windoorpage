@@ -37,7 +37,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('[BookingModal] Error en handleSubmit', err);
-      toast({ title: 'Error al confirmar', description: 'Ocurrió un problema inesperado.', variant: 'destructive' as any });
+  toast({ title: 'Error al confirmar', description: 'Ocurrió un problema inesperado.', variant: 'destructive' });
     }
   };
 
