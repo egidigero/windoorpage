@@ -24,15 +24,24 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
   if (!open) return null;
 
   const handleSubmit = async (payload: Record<string, any>) => {
-    if (!state.selectedDate || !state.selectedTime) {
-      toast({ title: "Falta seleccionar fecha y horario", description: "Elegí ambos antes de confirmar." });
-      return;
+    try {
+      if (!state.selectedDate || !state.selectedTime) {
+        toast({ title: "Falta seleccionar fecha y horario", description: "Elegí ambos antes de confirmar." });
+        return;
+      }
+      const merged = { ...payload, preferredDate: state.selectedDate, preferredTime: state.selectedTime };
+      // Debug log (se puede quitar luego)
+      // eslint-disable-next-line no-console
+      console.log('[BookingModal] submit payload', merged);
+      await onConfirm?.(merged);
+      toast({ title: "Reserva confirmada", description: `Reserva para ${state.selectedDate} ${state.selectedTime} enviada.` });
+      onOpenChange(false);
+      state.reset();
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('[BookingModal] Error en handleSubmit', err);
+      toast({ title: 'Error al confirmar', description: 'Ocurrió un problema inesperado.', variant: 'destructive' as any });
     }
-    const merged = { ...payload, preferredDate: state.selectedDate, preferredTime: state.selectedTime };
-    await onConfirm?.(merged);
-    toast({ title: "Reserva confirmada", description: `Reserva para ${state.selectedDate} ${state.selectedTime} enviada.` });
-    onOpenChange(false);
-    state.reset();
   };
 
   return (
