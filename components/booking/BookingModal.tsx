@@ -6,6 +6,7 @@ import { useBookingState } from "./useBookingState";
 import { DateTimePicker } from "./DateTimePicker";
 import { LeadBookingForm } from "./LeadBookingForm";
 import { useToast } from "@/hooks/use-toast";
+import { useRef } from "react";
 
 export interface BookingModalProps {
   open: boolean;
@@ -18,6 +19,7 @@ export interface BookingModalProps {
 export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType, defaultClientType }: BookingModalProps) {
   const state = useBookingState();
   const { toast } = useToast();
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   if (!open) return null;
 
@@ -48,6 +50,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         <div className="pt-6 border-t">
           <h4 className="text-lg font-medium text-gray-900 mb-4">Tus Datos</h4>
           <LeadBookingForm
+            ref={formRef}
             showSubmitButton={false}
             withInlinePreferredDateTime={false}
             defaultClientType={defaultClientType}
@@ -60,11 +63,15 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
 
         <div className="flex justify-end space-x-4 mt-8">
           <Button variant="outline" onClick={() => { onOpenChange(false); state.reset(); }} className="px-6 py-3">Cancelar</Button>
-          <Button disabled={!state.selectedDate || !state.selectedTime} onClick={() => {
-            // programmatically submit form via hidden button? Instead rely on user to fill + click Confirm
-            const form = document.querySelector<HTMLFormElement>("form");
-            form?.requestSubmit();
-          }} className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 disabled:opacity-50">Confirmar Reserva</Button>
+          <Button
+            disabled={!state.selectedDate || !state.selectedTime}
+            onClick={() => {
+              formRef.current?.requestSubmit();
+            }}
+            className="bg-[#E6D5C3] hover:bg-[#DCC9B8] text-black font-semibold px-6 py-3 disabled:opacity-50"
+          >
+            Confirmar Reserva
+          </Button>
         </div>
       </div>
     </div>

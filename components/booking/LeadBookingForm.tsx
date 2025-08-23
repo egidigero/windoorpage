@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 
 export interface LeadBookingFormProps {
   className?: string;
@@ -18,7 +18,7 @@ export interface LeadBookingFormProps {
   onSubmit?: (payload: Record<string, any>) => Promise<void> | void;
 }
 
-export function LeadBookingForm({
+export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>(function LeadBookingFormInternal({
   className,
   submitLabel = "Enviar Consulta",
   showSubmitButton = true,
@@ -29,7 +29,7 @@ export function LeadBookingForm({
   controlledTime,
   readOnlyControlledDateTime = true,
   onSubmit,
-}: LeadBookingFormProps) {
+}, ref) {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
 
@@ -64,7 +64,7 @@ export function LeadBookingForm({
   };
 
   return (
-    <form className={cn("space-y-6", className)} onSubmit={handleSubmit}>
+  <form ref={ref} className={cn("space-y-6", className)} onSubmit={handleSubmit}>
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
@@ -144,4 +144,4 @@ export function LeadBookingForm({
       )}
     </form>
   );
-}
+});
