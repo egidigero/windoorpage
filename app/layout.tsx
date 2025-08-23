@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Inter, Montserrat } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
 import { BookingProvider } from "@/components/booking/BookingProvider";
+// Web Vitals side-effect reporter (client-only file in same directory)
+import './web-vitals-reporter';
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -75,7 +77,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" type="image/png" />
         {/* ...otros tags... */}
     {/* Performance preconnects */}
-    <link rel="preconnect" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" crossOrigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
     {/* Preload hero image for LCP */}
     <link rel="preload" as="image" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/foto_Mesa_de_trabajo_1_xig9nn.jpg-k4cDKWCcIAos0k47ORXgwbtCyy6tOK.jpeg" />
@@ -141,6 +142,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} ${montserrat.variable}`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-black text-white px-4 py-2 rounded z-[10000]">Saltar al contenido</a>
         <BookingProvider>
           <main id="main-content" role="main" className="min-h-screen focus:outline-none">
             {children}
