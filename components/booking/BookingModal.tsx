@@ -29,10 +29,7 @@ export function BookingModal({ open, onOpenChange, onConfirm, defaultProductType
         toast({ title: "Falta seleccionar fecha y horario", description: "Elegí ambos antes de confirmar." });
         return;
       }
-      const merged = { ...payload, preferredDate: state.selectedDate, preferredTime: state.selectedTime };
-      // Debug log (se puede quitar luego)
-      // eslint-disable-next-line no-console
-      console.log('[BookingModal] submit payload', merged);
+  const merged = { ...payload, preferredDate: state.selectedDate, preferredTime: state.selectedTime };
       await onConfirm?.(merged);
       toast({ title: "Reserva confirmada", description: `Reserva para ${state.selectedDate} ${state.selectedTime} enviada.` });
       onOpenChange(false);
