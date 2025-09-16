@@ -142,7 +142,7 @@ export const LeadBookingForm = forwardRef<HTMLFormElement, LeadBookingFormProps>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
           {/* Simplified pattern to avoid escaping issues in some browsers causing invalid regex warnings */}
-          <input id="phone" name="phone" required pattern="[0-9+()\s-]{6,}" type="tel" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu número de teléfono" />
+          <input id="phone" name="phone" required pattern="[0-9()+\s-]{6,}" type="tel" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E6D5C3] focus:border-transparent" placeholder="Tu número de teléfono" />
         </div>
       </div>
 

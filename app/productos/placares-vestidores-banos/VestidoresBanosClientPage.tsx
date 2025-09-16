@@ -12,6 +12,8 @@ import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function VestidoresBanosClientPage() {
   const [showReservationModal] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
 
   const projectImages = [
     {
@@ -116,7 +118,7 @@ export default function VestidoresBanosClientPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projectImages.map((image, index) => (
-                <div key={index} className="group cursor-pointer">
+                <div key={index} className="group cursor-pointer" onClick={() => { setModalOpen(true); setModalIndex(index); }}>
                   <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
                     <Image
                       src={image.src}
@@ -133,6 +135,45 @@ export default function VestidoresBanosClientPage() {
                 </div>
               ))}
             </div>
+
+            {/* Modal para ver imagen en grande */}
+            {modalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+                <button
+                  className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80"
+                  onClick={() => setModalOpen(false)}
+                  aria-label="Cerrar"
+                >
+                  &times;
+                </button>
+                <div className="relative max-w-3xl w-full flex flex-col items-center">
+                  <Image
+                    src={projectImages[modalIndex].src}
+                    alt={projectImages[modalIndex].alt}
+                    width={900}
+                    height={675}
+                    className="rounded-2xl object-contain shadow-2xl"
+                  />
+                  <h3 className="text-white text-xl mt-4 mb-2 text-center">{projectImages[modalIndex].title}</h3>
+                  <div className="flex justify-between w-full mt-2">
+                    <button
+                      className="text-white bg-black/40 px-4 py-2 rounded-l-full hover:bg-black/70"
+                      onClick={() => setModalIndex((i) => (i === 0 ? projectImages.length - 1 : i - 1))}
+                      aria-label="Anterior"
+                    >
+                      &#8592;
+                    </button>
+                    <button
+                      className="text-white bg-black/40 px-4 py-2 rounded-r-full hover:bg-black/70"
+                      onClick={() => setModalIndex((i) => (i === projectImages.length - 1 ? 0 : i + 1))}
+                      aria-label="Siguiente"
+                    >
+                      &#8594;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
