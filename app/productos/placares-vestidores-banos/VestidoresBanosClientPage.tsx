@@ -15,34 +15,24 @@ export default function VestidoresBanosClientPage() {
 
   const projectImages = [
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%C2%BFTe%20gustar%C3%ADa%20que%20tu%20ba%C3%B1o%20se%20vea%20as%C3%ADHacelo%20con%20Windoor.%F0%9F%93%8D%20Remeros%20Plaza%2C%20primer%20piso.%20Local%202006%F0%9F%90%AE.jpg-yKqkqP88fcqoqZVrGWlrbnjTRQveVs.jpeg",
-      alt: "Baño de lujo con vanitory doble",
-      title: "Baño Principal con Vanitory Doble",
+      src: "/images/vestidores-1.jpg",
+      alt: "Vestidor moderno con iluminación LED",
+      title: "Vestidor moderno con iluminación LED",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%C2%BFTe%20gustar%C3%ADa%20que%20tu%20ba%C3%B1o%20se%20vea%20as%C3%ADHacelo%20con%20Windoor.%F0%9F%93%8D%20Remeros%20Plaza%2C%20primer%20piso.%20Local%202006%F0%9F%90%AE%20%282%29.jpg-IAo8a4mP2rYPGSMAa3a8kzF4IuBU7O.jpeg",
-      alt: "Ducha de lujo con ventana",
-      title: "Ducha Premium con Ventana",
+      src: "/images/vestidores-2.jpg",
+      alt: "Vestidor de madera con isla central",
+      title: "Vestidor de madera con isla central",
     },
     {
-      src: "https://images.unsplash.com/photo-1616627548380-a4e4978e6b24?auto=format&fit=crop&w=800&q=80",
-      alt: "Vestidor a medida moderno",
-      title: "Vestidor a Medida",
+      src: "/images/vestidores-3.jpg",
+      alt: "Vestidor con puertas negras y espejo",
+      title: "Vestidor con puertas negras y espejo",
     },
     {
-      src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-      alt: "Baño minimalista con mármol",
-      title: "Baño Minimalista",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1600618432448-4110be51c650?auto=format&fit=crop&w=800&q=80",
-      alt: "Vestidor con isla central",
-      title: "Vestidor con Isla Central",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?auto=format&fit=crop&w=800&q=80",
-      alt: "Baño suite premium",
-      title: "Suite Premium",
+      src: "/images/vestidores-4.jpg",
+      alt: "Baño moderno con mesada negra",
+      title: "Baño moderno con mesada negra",
     },
   ]
 
