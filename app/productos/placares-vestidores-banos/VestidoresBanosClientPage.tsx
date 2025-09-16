@@ -18,23 +18,23 @@ export default function VestidoresBanosClientPage() {
   const projectImages = [
     {
       src: "/images/vestidores-1.jpg",
-      alt: "Vestidor moderno con iluminación LED",
-      title: "Vestidor moderno con iluminación LED",
+      alt: "Baño moderno con mesada negra y grifería dorada",
+      title: "Baño moderno con mesada negra y grifería dorada",
     },
     {
       src: "/images/vestidores-2.jpg",
-      alt: "Vestidor de madera con isla central",
-      title: "Vestidor de madera con isla central",
-    },
-    {
-      src: "/images/vestidores-3.jpg",
       alt: "Vestidor con puertas negras y espejo",
       title: "Vestidor con puertas negras y espejo",
     },
     {
+      src: "/images/vestidores-3.jpg",
+      alt: "Vestidor de madera claro con isla central",
+      title: "Vestidor de madera claro con isla central",
+    },
+    {
       src: "/images/vestidores-4.jpg",
-      alt: "Baño moderno con mesada negra",
-      title: "Baño moderno con mesada negra",
+      alt: "Vestidor premium con estantes iluminados",
+      title: "Vestidor premium con estantes iluminados",
     },
   ]
 
@@ -146,14 +146,17 @@ export default function VestidoresBanosClientPage() {
                 >
                   &times;
                 </button>
-                <div className="relative max-w-3xl w-full flex flex-col items-center">
-                  <Image
-                    src={projectImages[modalIndex].src}
-                    alt={projectImages[modalIndex].alt}
-                    width={900}
-                    height={675}
-                    className="rounded-2xl object-contain shadow-2xl"
-                  />
+                <div className="relative w-full flex flex-col items-center px-4">
+                  <div className="flex items-center justify-center w-full" style={{maxWidth: '90vw', maxHeight: '80vh'}}>
+                    <Image
+                      src={projectImages[modalIndex].src}
+                      alt={projectImages[modalIndex].alt}
+                      width={900}
+                      height={675}
+                      className="rounded-2xl object-contain shadow-2xl"
+                      style={{maxWidth: '90vw', maxHeight: '80vh'}}
+                    />
+                  </div>
                   <h3 className="text-white text-xl mt-4 mb-2 text-center">{projectImages[modalIndex].title}</h3>
                   <div className="flex justify-between w-full mt-2">
                     <button
