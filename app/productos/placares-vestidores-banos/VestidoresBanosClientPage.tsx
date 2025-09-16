@@ -17,7 +17,7 @@ export default function VestidoresBanosClientPage() {
 
   const projectImages = [
     {
-      src: "/images/vestidores-1.jpg",
+      src: "/images/vestidores-3.jpg",
       alt: "Baño moderno con mesada negra y grifería dorada",
       title: "Baño moderno con mesada negra y grifería dorada",
     },
@@ -27,7 +27,7 @@ export default function VestidoresBanosClientPage() {
       title: "Vestidor con puertas negras y espejo",
     },
     {
-      src: "/images/vestidores-3.jpg",
+      src: "/images/vestidores-1.jpg",
       alt: "Vestidor de madera claro con isla central",
       title: "Vestidor de madera claro con isla central",
     },
