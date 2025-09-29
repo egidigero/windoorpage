@@ -131,15 +131,6 @@ export default function PuertasInteriorClientPage() {
                       width={600}
                       height={800}
                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110 rounded-2xl"
-                      onError={(e) => {
-                        // fallback a <img> si hay error
-                        e.currentTarget.style.display = 'none';
-                        const fallback = document.createElement('img');
-                        fallback.src = image.src;
-                        fallback.alt = image.alt;
-                        fallback.className = 'object-cover w-full h-full rounded-2xl';
-                        e.currentTarget.parentNode.appendChild(fallback);
-                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
