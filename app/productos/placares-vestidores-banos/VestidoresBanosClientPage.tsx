@@ -36,6 +36,16 @@ export default function VestidoresBanosClientPage() {
       alt: "Vestidor premium con estantes iluminados",
       title: "Vestidor premium con estantes iluminados",
     },
+    {
+      src: "/images/vestidores-6.jpg",
+      alt: "Detalle de accesorio extraíble para corbatas en vestidor de madera",
+      title: "Accesorio extraíble para corbatas",
+    },
+    {
+      src: "/images/vestidores-5.jpg",
+      alt: "Vestidor elegante con tocador, espejo redondo y cortinas de diseño",
+      title: "Vestidor elegante con tocador y espejo",
+    },
   ]
 
   const scrollToContact = () => {
@@ -138,15 +148,23 @@ export default function VestidoresBanosClientPage() {
 
             {/* Modal para ver imagen en grande */}
             {modalOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-                <button
-                  className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80"
-                  onClick={() => setModalOpen(false)}
-                  aria-label="Cerrar"
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+                onClick={e => {
+                  if (e.target === e.currentTarget) setModalOpen(false);
+                }}
+              >
+                <div
+                  className="relative max-w-3xl w-full flex flex-col items-center px-4 mx-auto"
+                  onClick={e => e.stopPropagation()}
                 >
-                  &times;
-                </button>
-                <div className="relative w-full flex flex-col items-center px-4">
+                  <button
+                    className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80"
+                    onClick={e => { e.stopPropagation(); setModalOpen(false); }}
+                    aria-label="Cerrar"
+                  >
+                    &times;
+                  </button>
                   <div className="flex items-center justify-center w-full" style={{maxWidth: '90vw', maxHeight: '80vh'}}>
                     <Image
                       src={projectImages[modalIndex].src}
@@ -161,14 +179,14 @@ export default function VestidoresBanosClientPage() {
                   <div className="flex justify-between w-full mt-2">
                     <button
                       className="text-white bg-black/40 px-4 py-2 rounded-l-full hover:bg-black/70"
-                      onClick={() => setModalIndex((i) => (i === 0 ? projectImages.length - 1 : i - 1))}
+                      onClick={e => { e.stopPropagation(); setModalIndex((i) => (i === 0 ? projectImages.length - 1 : i - 1)); }}
                       aria-label="Anterior"
                     >
                       &#8592;
                     </button>
                     <button
                       className="text-white bg-black/40 px-4 py-2 rounded-r-full hover:bg-black/70"
-                      onClick={() => setModalIndex((i) => (i === projectImages.length - 1 ? 0 : i + 1))}
+                      onClick={e => { e.stopPropagation(); setModalIndex((i) => (i === projectImages.length - 1 ? 0 : i + 1)); }}
                       aria-label="Siguiente"
                     >
                       &#8594;
