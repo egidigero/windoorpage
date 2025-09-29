@@ -17,34 +17,19 @@ export default function AberturasPVCClientPage() {
 
   const projectImages = [
     {
+      src: "/images/Aberturas1.jpg",
+      alt: "Aberturas en el Showroom",
+      title: "Aberturas en el Showroom",
+    },
+    {
+      src: "/images/Aberturas2.jpg",
+      alt: "Aberturas en el Showroom",
+      title: "Aberturas en el Showroom",
+    },
+    {
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Aberturas%20colocadas%20en%20barrio%20MARINAS%40puertos_escobar.jpg-dTTdGL5emzuvGcZ5TeCEuTC8S3Yae1.jpeg",
       alt: "Aberturas de PVC en Barrio Marinas",
       title: "Casa Moderna - Barrio Marinas",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=80",
-      alt: "Ventana PVC con doble vidrio",
-      title: "Ventana con Doble Vidrio Hermético",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta balcón PVC premium",
-      title: "Puerta Balcón Premium",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1507038890895-41ca1a822605?auto=format&fit=crop&w=800&q=80",
-      alt: "Ventanal panorámico PVC",
-      title: "Ventanal Panorámico",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=800&q=80",
-      alt: "Abertura PVC para cocina",
-      title: "Ventana de Cocina",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1505692794403-1f4873b951d9?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta de entrada PVC",
-      title: "Puerta de Entrada Reforzada",
     },
   ]
 

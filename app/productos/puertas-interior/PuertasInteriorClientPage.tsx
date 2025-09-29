@@ -15,35 +15,25 @@ export default function PuertasInteriorClientPage() {
 
   const projectImages = [
     {
-      src: "https://images.unsplash.com/photo-1586105251261-72a756497a12?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta interior moderna blanca",
-      title: "Puerta Moderna Blanca",
+      src: "/images/Puerta1.jpg",
+      alt: "Puerta de interior minimalista negra",
+      title: "Puerta Pivotante",
     },
     {
-      src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta de madera natural con textura",
-      title: "Puerta Madera Natural",
+      src: "/images/Puerta2.jpg",
+      alt: "Puerta de interior blanca",
+      title: "Puerta Blanca",
     },
     {
-      src: "https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta corrediza minimalista",
-      title: "Puerta Corrediza",
+      src: "/images/Puerta3.jpg",
+      alt: "Puerta de interior con madera",
+      title: "Puerta de interior con madera",
     },
     {
-      src: "https://images.unsplash.com/photo-1616628171852-e7ad0f57d8d2?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta con vidrio esmerilado",
-      title: "Puerta con Vidrio",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1587134132591-f7af6c8db966?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta doble hoja elegante",
-      title: "Puerta Doble Hoja",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1529490129431-b4f942243a16?auto=format&fit=crop&w=800&q=80",
-      alt: "Puerta de placard integrada",
-      title: "Puerta Placard Integrada",
-    },
+      src: "/images/Puerta4.jpg",
+      alt: "Puerta de interior con vidrio",
+      title: "Puerta de interior con vidrio",
+    }
   ]
 
   const scrollToContact = () => {
@@ -134,13 +124,22 @@ export default function PuertasInteriorClientPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projectImages.map((image, index) => (
                 <div key={index} className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
+                  <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[3/4]">
                     <Image
                       src={image.src}
                       alt={image.alt}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      width={600}
+                      height={800}
+                      className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110 rounded-2xl"
+                      onError={(e) => {
+                        // fallback a <img> si hay error
+                        e.currentTarget.style.display = 'none';
+                        const fallback = document.createElement('img');
+                        fallback.src = image.src;
+                        fallback.alt = image.alt;
+                        fallback.className = 'object-cover w-full h-full rounded-2xl';
+                        e.currentTarget.parentNode.appendChild(fallback);
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">

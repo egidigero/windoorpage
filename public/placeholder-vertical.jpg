@@ -1,0 +1,4 @@
+// Placeholder vertical image for video reels
+// You can replace this with a real frame from your video
+import placeholder from '../public/placeholder-vertical.jpg';
+export default placeholder;
