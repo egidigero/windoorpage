@@ -12,6 +12,8 @@ import { LeadBookingForm } from "@/components/booking/LeadBookingForm"
 
 export default function PuertasInteriorClientPage() {
   const [showReservationModal] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
 
   const projectImages = [
     {
@@ -28,6 +30,11 @@ export default function PuertasInteriorClientPage() {
       src: "/images/DSC09705.JPG",
       alt: "Puerta de interior",
       title: "Puerta de Interior",
+    },
+    {
+      src: "/images/DSC09750.JPG",
+      alt: "Puerta de acceso pivotante con diseño de listones",
+      title: "Puerta de Acceso Especial",
     },
     {
       src: "/images/Puerta4.jpg",
@@ -123,7 +130,7 @@ export default function PuertasInteriorClientPage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projectImages.map((image, index) => (
-                <div key={index} className="group cursor-pointer">
+                <div key={index} className="group cursor-pointer" onClick={() => { setModalOpen(true); setModalIndex(index); }}>
                   <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[3/4]">
                     <Image
                       src={image.src}
@@ -140,6 +147,56 @@ export default function PuertasInteriorClientPage() {
                 </div>
               ))}
             </div>
+
+            {/* Modal para ver imagen en grande */}
+            {modalOpen && (
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+                onClick={e => {
+                  if (e.target === e.currentTarget) setModalOpen(false);
+                }}
+              >
+                <div
+                  className="relative max-w-3xl w-full flex flex-col items-center px-4 mx-auto"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button
+                    className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80"
+                    onClick={e => { e.stopPropagation(); setModalOpen(false); }}
+                    aria-label="Cerrar"
+                  >
+                    &times;
+                  </button>
+                  <div className="flex items-center justify-center w-full" style={{maxWidth: '90vw', maxHeight: '80vh'}}>
+                    <Image
+                      src={projectImages[modalIndex].src}
+                      alt={projectImages[modalIndex].alt}
+                      width={900}
+                      height={1200}
+                      className="rounded-2xl object-contain shadow-2xl"
+                      style={{maxWidth: '90vw', maxHeight: '80vh'}}
+                    />
+                  </div>
+                  <h3 className="text-white text-xl mt-4 mb-2 text-center">{projectImages[modalIndex].title}</h3>
+                  <div className="flex justify-between w-full mt-2">
+                    <button
+                      className="text-white bg-black/40 px-4 py-2 rounded-l-full hover:bg-black/70"
+                      onClick={e => { e.stopPropagation(); setModalIndex((i) => (i === 0 ? projectImages.length - 1 : i - 1)); }}
+                      aria-label="Anterior"
+                    >
+                      &#8592;
+                    </button>
+                    <button
+                      className="text-white bg-black/40 px-4 py-2 rounded-r-full hover:bg-black/70"
+                      onClick={e => { e.stopPropagation(); setModalIndex((i) => (i === projectImages.length - 1 ? 0 : i + 1)); }}
+                      aria-label="Siguiente"
+                    >
+                      &#8594;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -62,7 +62,7 @@ export default function AberturasPVCClientPage() {
               Productos
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Aberturas de PVC</span>
+            <span className="text-gray-900 font-medium">Aberturas de PVC y Aluminio</span>
           </div>
         </div>
       </div>
@@ -71,11 +71,10 @@ export default function AberturasPVCClientPage() {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Aberturas de PVC</h1>
+            <h1 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6">Aberturas de PVC y Aluminio</h1>
             <div className="w-24 h-0.5 bg-[#E6D5C3] mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 leading-relaxed font-light mb-12">
-              Aislación térmica, acústica superior, herrajes de primera línea y colocación profesional. Ideal para
-              obras que exigen eficiencia con terminaciones premium.
+              Sistemas en PVC y Aluminio con aislación térmica y acústica superior, herrajes de primera línea y colocación profesional. Ideal para obras que exigen eficiencia con terminaciones premium.
             </p>
 
             {/* Features Grid */}
@@ -115,7 +114,7 @@ export default function AberturasPVCClientPage() {
             <div className="text-center mb-16">
               <h2 className="text-4xl font-light text-gray-900 mb-6">Galería de Fotos</h2>
               <p className="text-xl text-gray-600 font-light">
-                Descubrí la calidad y versatilidad de nuestras aberturas de PVC
+                Descubrí la calidad y versatilidad de nuestras aberturas de PVC y Aluminio
               </p>
             </div>
 

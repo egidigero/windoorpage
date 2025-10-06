@@ -22,6 +22,11 @@ export default function VestidoresBanosClientPage() {
       title: "Baño moderno con mesada negra y grifería dorada",
     },
     {
+      src: "/images/DSC09665.JPG",
+      alt: "Vanitory flotante con mesada negra y bacha integrada",
+      title: "Mueble de Baño a Medida",
+    },
+    {
       src: "/images/vestidores-2.jpg",
       alt: "Vestidor con puertas negras y espejo",
       title: "Vestidor con puertas negras y espejo",
@@ -30,6 +35,11 @@ export default function VestidoresBanosClientPage() {
       src: "/images/vestidores-1.jpg",
       alt: "Vestidor de madera claro con isla central",
       title: "Vestidor de madera claro con isla central",
+    },
+    {
+      src: "/images/DSC09664.JPG",
+      alt: "Escalera de madera flotante con baranda de vidrio",
+      title: "Diseño de Escalera Minimalista",
     },
     {
       src: "/images/vestidores-4.jpg",
