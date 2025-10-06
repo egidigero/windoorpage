@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Play, X, ChevronRight, Eye, MessageSquare } from "lucide-react";
+import { Play, ChevronRight, Eye, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import Header from "@/components/Header";
@@ -185,11 +185,11 @@ export default function ProyectosClientPage() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
-                  className="absolute top-2 right-2 z-10 p-2 text-black hover:text-gray-700"
+                  className="absolute top-4 right-4 z-10 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80 transition-colors"
                   onClick={closeVideoModal}
                   aria-label="Cerrar"
                 >
-                  <X size={24} />
+                  &times;
                 </button>
                 <div className="flex-1 flex items-center justify-center w-full h-full">
                   <video
