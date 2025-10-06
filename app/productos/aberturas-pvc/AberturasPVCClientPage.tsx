@@ -27,6 +27,11 @@ export default function AberturasPVCClientPage() {
       title: "Aberturas en el Showroom",
     },
     {
+      src: "/images/DSC09727.JPG",
+      alt: "Aberturas Ventanales",
+      title: "Aberturas Ventanales",
+    },
+    {
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Aberturas%20colocadas%20en%20barrio%20MARINAS%40puertos_escobar.jpg-dTTdGL5emzuvGcZ5TeCEuTC8S3Yae1.jpeg",
       alt: "Aberturas de PVC en Barrio Marinas",
       title: "Casa Moderna - Barrio Marinas",

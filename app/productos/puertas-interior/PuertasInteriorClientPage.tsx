@@ -25,9 +25,9 @@ export default function PuertasInteriorClientPage() {
       title: "Puerta Blanca",
     },
     {
-      src: "/images/Puerta3.jpg",
-      alt: "Puerta de interior con madera",
-      title: "Puerta de interior con madera",
+      src: "/images/DSC09705.JPG",
+      alt: "Puerta de interior",
+      title: "Puerta de Interior",
     },
     {
       src: "/images/Puerta4.jpg",
