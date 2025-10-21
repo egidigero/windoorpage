@@ -1,4 +1,5 @@
 import type React from "react"
+import Script from "next/script"
 import type { Metadata } from "next"
 import { Inter, Montserrat } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
@@ -81,6 +82,19 @@ export default function RootLayout({
     {/* Preload hero image for LCP */}
     <link rel="preload" as="image" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/foto_Mesa_de_trabajo_1_xig9nn.jpg-k4cDKWCcIAos0k47ORXgwbtCyy6tOK.jpeg" />
         {/* Estructured Data / JSON-LD */}
+        {/* Google Tag (gtag.js) para Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17670278482"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17670278482');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           // Nota: mantener datos clave para Organización, LocalBusiness y WebSite
